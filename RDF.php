@@ -154,6 +154,7 @@ define('RDF_DATATYPE_SCHEMA_URI', 'http://www.w3.org/TR/xmlschema-2');
 define('RDF_SCHEMA_PREFIX', 'rdfs');
 define('RDF_RDFS_SUBCLASSOF', 'subClassOf');
 define('RDF_RDFS_SUBPROPERTYOF', 'subPropertyOf');
+define('RDF_RDF','RDF');
 // ----------------------------------------------------------------------------------
 // XML
 // ----------------------------------------------------------------------------------
