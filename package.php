@@ -28,7 +28,7 @@ $result = $package->setOptions(array(
     'simpleoutput'      => true,
     'baseinstalldir'    => '/',
     'packagedirectory'  => './',
-    'dir_roles'         => array('tests' => 'test')
+    'dir_roles'         => array('docs' => 'doc', 'examples' => 'doc', 'misc' => 'data')
     ));
 
 if (PEAR::isError($result)) {
