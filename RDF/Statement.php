@@ -242,12 +242,14 @@ class RDF_Statement extends RDF_Object
         if ($this == $that) {
             return true;
         }
+
         if ($that == null || !(is_a($that, 'RDF_Statement'))) {
             return false;
         }
 
-        return
-        $this->subj->equals($that->getSubject()) && $this->pred->equals($that->getPredicate()) && $this->obj->equals($that->getObject());
+        return $this->subj->equals($that->getSubject())
+            && $this->pred->equals($that->getPredicate())
+            && $this->obj->equals($that->getObject());
     }
 
     /**
@@ -261,7 +263,7 @@ class RDF_Statement extends RDF_Object
 
     function compare(&$compare_with)
     {
-        return statementsorter($this, $compare_with);
+        return RDF_statementsorter($this, $compare_with);
         // statementsorter function see below
     }
 
@@ -302,7 +304,7 @@ class RDF_Statement extends RDF_Object
 
 /**
  * Comparison function for comparing two statements.
- * statementsorter() is used by the PHP function usort ( array array, callback cmp_function)
+ * RDF_statementsorter() is used by the PHP function usort ( array array, callback cmp_function)
  *
  * @access private
  * @param object Statement    $a
@@ -310,7 +312,7 @@ class RDF_Statement extends RDF_Object
  * @return integer less than, equal to, or greater than zero
  * @throws phpErrpr
  */
-function statementsorter($a, $b)
+function RDF_statementsorter($a, $b)
 {
     // Compare subjects
     $x = $a->getSubject();
@@ -319,6 +321,7 @@ function statementsorter($a, $b)
     if ($r != 0) {
         return $r;
     }
+
     // Compare predicates
     $x = $a->getPredicate();
     $y = $b->getPredicate();
@@ -326,9 +329,11 @@ function statementsorter($a, $b)
     if ($r != 0) {
         return $r;
     }
+
     // Final resort, compare objects
     $x = $a->getObject();
     $y = $b->getObject();
+
     return strcmp($x->toString(), $y->toString());
 }
 ?>
