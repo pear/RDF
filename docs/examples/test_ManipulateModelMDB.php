@@ -20,10 +20,10 @@
 
 <?php 
 // Include RAP
-include 'RDF.php';
-include 'RDF/Store/MDB.php';
-include 'RDF/Model/MDB.php';
-include 'RDF/Model/Memory.php';
+require_once 'RDF.php';
+require_once 'RDF/Store/MDB.php';
+require_once 'RDF/Model/MDB.php';
+require_once 'RDF/Model/Memory.php';
 // # 1. Connect to MsAccess database (via ODBC)
 // # ------------------------------------------
 // Connect to MsAccess (rdf_db DSN) database using connection settings

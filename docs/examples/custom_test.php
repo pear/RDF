@@ -186,8 +186,8 @@ xmlns:s="http://description.org/schema/">
     // Process RDF
     // (if submitted and RDF smaller than 10000 chars)
     // ///////////////////////////////////////////////////////////////
-    include 'RDF.php';
-    include 'RDF/Model/Memory.php';
+    require_once 'RDF.php';
+    require_once 'RDF/Model/Memory.php';
     // Prepare RDF
     $rdfInput = stripslashes($_POST['RDF']);
     // Show the submitted RDF
@@ -241,7 +241,7 @@ xmlns:s="http://description.org/schema/">
     } 
     // Reify the model if checked in submitted form
     if (isset($_POST['reify']) and $_POST['reify'] == "1") {
-        $model = &$model->reify();
+        $model =& $model->reify();
         echo "<BR><BR><h3>Your original model has been refied.</h3><BR>";
     } ;
     // Output Triples as Table if checked in submitted form
@@ -267,7 +267,7 @@ xmlns:s="http://description.org/schema/">
             $ser->configUseQnames(false);
             $msg_string .= 'Without Qnames ';
         } ;
-        $rdf = &$ser->serialize($model);
+        $rdf =& $ser->serialize($model);
         echo "<p><BR><h3>Serialization of input model";
         if (isset($msg_string)) echo " (Options: " . $msg_string . ")";
         echo ":</h3>";

@@ -6,8 +6,8 @@
 <body>
 <?php
 
-include 'RDF.php';
-include 'RDF/Model/Memory.php';
+require_once 'RDF.php';
+require_once 'RDF/Model/Memory.php';
 
 // Filename of an RDF document
 $base = "example1.rdf";

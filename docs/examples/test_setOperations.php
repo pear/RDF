@@ -10,8 +10,8 @@
 
 
 <?php
-include 'RDF.php';
-include 'RDF/Model/Memory.php';
+require_once 'RDF.php';
+require_once 'RDF/Model/Memory.php';
 
 echo "<h3>1. Generate and show two Model_Memorys</h3>";
 // Create empty Model_Memory
@@ -55,19 +55,19 @@ echo "Test: Model 1 contains all statements from model 2 :" . $model->containsAl
 echo "Test: Model 1 equals model 2 :" . $model->equals($model2) . "<p>";
 
 echo "<h3>3. Unite model 1 and model 2</h3>";
-$model3 = &$model->unite($model2);
+$model3 =& $model->unite($model2);
 $model3->writeAsHtmlTable();
 
 echo "<h3>4. Intersect model 1 and model 2</h3>";
-$model4 = &$model->intersect($model2);
+$model4 =& $model->intersect($model2);
 $model4->writeAsHtmlTable();
 
 echo "<h3>5. Substract model 2 from model 1</h3>";
-$model5 = &$model->subtract($model2);
+$model5 =& $model->subtract($model2);
 $model5->writeAsHtmlTable();
 
 echo "<h3>6. Reify model 1</h3>";
-$model6 = &$model->reify();
+$model6 =& $model->reify();
 $model6->writeAsHtmlTable();
 
 ?>

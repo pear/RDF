@@ -20,8 +20,8 @@
 
 <?php 
 // Include RAP
-include 'RDF.php';
-include 'RDF/Store/MDB.php';
+require_once 'RDF.php';
+require_once 'RDF/Store/MDB.php';
 // # 1. Connect to MsAccess database (via ODBC) and create tables.
 // Connect to MsAccess (rdf_db DSN) database using connection settings
 // defined in constants.php :
