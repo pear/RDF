@@ -289,8 +289,7 @@ class RDF_Object
 {
     function factory()
     {
-       $errmsg = 'Not implemented';
-        return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+        return RDF::raiseError(RDF_ERROR, null, null, 'Not implemented');
     }
 
     /**
