@@ -322,7 +322,7 @@ class RDF_Parser extends RDF_Object
      * @param string $val
      * @access private
      */
-    function _istalnum($val)
+    function _is_alnum($val)
     {
         return ereg('[A-Za-z0-9]', $val);
     }
@@ -332,7 +332,7 @@ class RDF_Parser extends RDF_Object
      * @param string $val
      * @access private
      */
-    function _istalpha($val)
+    function _is_alpha($val)
     {
         return ereg('[A-Za-z]', $val);
     }
@@ -346,10 +346,10 @@ class RDF_Parser extends RDF_Object
     {
         $result = false;
         $uri_p = 0;
-        if ($uri && $this->_istalpha($uri{$uri_p})) {
+        if ($uri && $this->_is_alpha($uri{$uri_p})) {
             ++$uri_p;
 
-            while (($uri_p < strlen($uri)) && ($this->_istalnum($uri{$uri_p})
+            while (($uri_p < strlen($uri)) && ($this->_is_alnum($uri{$uri_p})
                 || ($uri{$uri_p} == '+')
                 || ($uri{$uri_p} == '-')
                 || ($uri{$uri_p} == '.'))
@@ -563,12 +563,12 @@ class RDF_Parser extends RDF_Object
         $result = false;
 
         if ($id) {
-            if ($this->_istalpha($id{0}) || $id{0} == '_') {
+            if ($this->_is_alpha($id{0}) || $id{0} == '_') {
                 $result = true;
                 $i = 0;
                 $len = strlen($id);
                 while ($result != false && ++$i < $len) {
-                    if (!($this->_istalnum($id{$i}) || $id{$i} == '.'
+                    if (!($this->_is_alnum($id{$i}) || $id{$i} == '.'
                         || $id{$i} == '-' || $id{$i} == '_')
                     ) {
                         $result = false;
