@@ -200,7 +200,7 @@ class RDF_Model_Memory extends RDF_Model
     function writeAsHtml()
     {
         $ser =& new RDF_Serializer();
-        $rdf = &$ser->serialize($this);
+        $rdf =& $ser->serialize($this);
         $rdf = htmlspecialchars($rdf, ENT_QUOTES);
         $rdf = str_replace(' ', '&nbsp;', $rdf);
         $rdf = nl2br($rdf);
@@ -226,7 +226,7 @@ class RDF_Model_Memory extends RDF_Model
     function writeRDFToString()
     {
         $ser =& new RDF_Serializer();
-        $rdf = &$ser->serialize($this);
+        $rdf =& $ser->serialize($this);
         return $rdf;
     }
 
@@ -281,16 +281,18 @@ class RDF_Model_Memory extends RDF_Model
 
             for ($i = 1; $i <= $this->index[$subject->getLabel()][0]; $i++) {
                 $t = $this->triples[$this->index[$subject->getLabel()][$i]];
-                if ($t->equals($statement)) {
-                    return true;
+                $result = $t->equals($statement);
+                if ($result) {
+                    return $result;
                 }
             }
             return false;
         } else {
             // If there is no index, use linear search.
             foreach($this->triples as $value) {
-                if ($value->equals($statement)) {
-                    return true;
+                $result = $value->equals($statement);
+                if ($result) {
+                    return $result;
                 }
             }
             return false;
@@ -436,14 +438,20 @@ class RDF_Model_Memory extends RDF_Model
             for ($i = 1; $i <= $this->index[$subject->getLabel()][0]; $i++) {
                 $t = $this->triples[$this->index[$subject->getLabel()][$i]];
                 if ($this->matchStatement($t, $subject, $predicate, $object)) {
-                    $res->add($t);
+                    $result = $res->add($t);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
                 }
             }
         } else {
             // If there is no index, use linear search.
             foreach($this->triples as $value) {
                 if ($this->matchStatement($value, $subject, $predicate, $object)) {
-                    $res->add($value);
+                    $result = $res->add($value);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
                 }
             }
         }
@@ -480,7 +488,10 @@ class RDF_Model_Memory extends RDF_Model
                 && ($predicate_regex == null || preg_match($predicate_regex, $value->pred->getLabel()))
                 && ($object_regex == null || preg_match($object_regex, $value->obj->getLabel()))
             ) {
-                $res->add($value);
+                $result = $res->add($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         }
 
@@ -510,7 +521,10 @@ class RDF_Model_Memory extends RDF_Model
 
         foreach($this->triples as $value) {
             if (RDF_Util::getNamespace($value->getPredicate()) == $vocabulary) {
-                $res->add($value);
+                $result = $res->add($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         }
         return $res;
@@ -532,6 +546,9 @@ class RDF_Model_Memory extends RDF_Model
     function findFirstMatchingStatement($subject, $predicate, $object)
     {
         $res = $this->find($subject, $predicate, $object);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
         if ($res->size() != 0) {
             return $res->triples[0];
         } else {
@@ -554,6 +571,9 @@ class RDF_Model_Memory extends RDF_Model
     function findCount($subject, $predicate, $object)
     {
         $res = $this->find($subject, $predicate, $object);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
         return $res->size();
     }
 
@@ -587,14 +607,26 @@ class RDF_Model_Memory extends RDF_Model
         }
 
         foreach($this->triples as $key => $value) {
-            if ($this->triples[$key]->subj->equals($subject)) {
+            $result = $this->triples[$key]->subj->equals($subject);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if ($result) {
                 $this->triples[$key]->subj = $replacement;
                 $this->indexed = false;
             }
-            if ($this->triples[$key]->pred->equals($predicate)) {
+            $result = $this->triples[$key]->pred->equals($predicate);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if ($result) {
                 $this->triples[$key]->pred = $replacement;
             }
-            if ($this->triples[$key]->obj->equals($object)) {
+            $result = $this->triples[$key]->obj->equals($object);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if ($result) {
                 $this->triples[$key]->obj = $replacement;
             }
         }
@@ -613,16 +645,34 @@ class RDF_Model_Memory extends RDF_Model
      */
     function matchStatement($statement, $subject, $predicate, $object)
     {
-        if ($subject != null && !$statement->subj->equals($subject)) {
-            return false;
+        if ($subject) {
+            $result = $statement->subj->equals($subject);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if (!$result) {
+                return false;
+            }
         }
 
-        if ($predicate != null && !($statement->pred->equals($predicate))) {
-            return false;
+        if ($predicate) {
+            $result = $statement->pred->equals($predicate);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if (!$result) {
+                return false;
+            }
         }
 
-        if ($object != null && !($statement->obj->equals($object))) {
-            return false;
+        if ($object) {
+            $result = $statement->obj->equals($object);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if (!$result) {
+                return false;
+            }
         }
 
         return true;
@@ -643,8 +693,17 @@ class RDF_Model_Memory extends RDF_Model
         while (true) {
             $uri = $this->getBaseURI() . $prefix . $counter;
             $tempbNode =& RDF_BlankNode::factory($uri);
+            if (PEAR::isError($tempbNode)) {
+                return $tempbNode;
+            }
             $res1 = $this->find($tempbNode, null, null);
+            if (PEAR::isError($res1)) {
+                return $res1;
+            }
             $res2 = $this->find(null, null, $tempbNode);
+            if (PEAR::isError($res2)) {
+                return $res2;
+            }
             if ($res1->size() == 0 && $res2->size() == 0) {
                 return $uri;
             }
@@ -677,7 +736,11 @@ class RDF_Model_Memory extends RDF_Model
             return false;
         }
 
-        if (!$this->containsAll($that)) {
+        $result = $this->containsAll($that);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!$result) {
             return false;
         }
         return true;
@@ -722,12 +785,18 @@ class RDF_Model_Memory extends RDF_Model
 
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $value) {
-                $res->addWithoutDuplicates($value);
+                $result = $res->addWithoutDuplicates($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory = &$model->getMemModel();
+            $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
-                $res->addWithoutDuplicates($value);
+                $result = $res->addWithoutDuplicates($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         }
 
@@ -756,12 +825,18 @@ class RDF_Model_Memory extends RDF_Model
 
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $value) {
-                $res->remove($value);
+                $result = $res->remove($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory = &$model->getMemModel();
+            $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
-                $res->remove($value);
+                $result = $res->remove($value);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         }
 
@@ -789,14 +864,20 @@ class RDF_Model_Memory extends RDF_Model
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $value) {
                 if ($this->contains($value)) {
-                    $res->add($value);
+                    $result = $res->add($value);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
                 }
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory = &$model->getMemModel();
+            $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
                 if ($this->contains($value)) {
-                    $res->add($value);
+                    $result = $res->add($value);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
                 }
             }
         }
@@ -826,12 +907,18 @@ class RDF_Model_Memory extends RDF_Model
 
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $value) {
-                $this->_addStatementFromAnotherModel($value, $blankNodes_tmp);
+                $result = $this->_addStatementFromAnotherModel($value, $blankNodes_tmp);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
             $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
-                $this->_addStatementFromAnotherModel($value, $blankNodes_tmp);
+                $result = $this->_addStatementFromAnotherModel($value, $blankNodes_tmp);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
         }
     }
@@ -848,8 +935,11 @@ class RDF_Model_Memory extends RDF_Model
         $res =& new RDF_Model_Memory($this->getBaseURI());
 
         foreach($this->triples as $statement) {
-            $pointer = &$statement->reify($res);
-            $res->addModel($pointer);
+            $pointer =& $statement->reify($res);
+            $result = $res->addModel($pointer);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
         }
         return $res;
     }

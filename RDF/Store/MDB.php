@@ -157,7 +157,7 @@ class RDF_Store_MDB extends RDF_Object
             $this->dbConn->getValue('text', $modelID) .',' .
             $this->dbConn->getValue('text', $modelURI) .',' .
             $this->dbConn->getValue('text', $baseURI) .')';
-        $result = &$this->dbConn->query($sql);
+        $result =& $this->dbConn->query($sql);
 
         $this->dbConn->autoCommit(true);
 
@@ -193,7 +193,7 @@ class RDF_Store_MDB extends RDF_Object
         }
 
         $newmodel = $this->getNewModel($modelURI, $model->getBaseURI());
-        $newmodel->addModel($model);
+        return $newmodel->addModel($model);
     }
 
     /**

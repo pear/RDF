@@ -67,7 +67,13 @@ class RDF_Model extends RDF_Object
             }
         }
         $temp =& $parser->generateModel($filename);
-        $this->addModel($temp);
+        if (PEAR::isError($temp)) {
+            return $temp;
+        }
+        $result = $this->addModel($temp);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
         if ($this->getBaseURI() == null) {
             $this->setBaseURI($temp->getBaseURI());
         }
@@ -89,10 +95,19 @@ class RDF_Model extends RDF_Object
         if (is_a($subject, 'RDF_BlankNode')) {
             $label = $subject->getLabel();
             if (!array_key_exists($label, $blankNodes_tmp)) {
-                if ($this->findFirstMatchingStatement($subject, null, null)
-                    || $this->findFirstMatchingStatement(null, null, $subject)
-                ) {
+                $res1 = $this->findFirstMatchingStatement($subject, null, null);
+                if (PEAR::isError($res1)) {
+                    return $res1;
+                }
+                $res2 = $this->findFirstMatchingStatement(null, null, $subject);
+                if (PEAR::isError($res2)) {
+                    return $res2;
+                }
+                if ($res1 || $res2) {
                     $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
+                    if (PEAR::isError($blankNodes_tmp[$label])) {
+                        return $blankNodes_tmp[$label];
+                    }
                     $statement->subj = $blankNodes_tmp[$label];
                 } else {
                     $blankNodes_tmp[$label] = $subject;
@@ -105,10 +120,19 @@ class RDF_Model extends RDF_Object
         if (is_a($object, 'RDF_BlankNode')) {
             $label = $object->getLabel();
             if (!array_key_exists($label, $blankNodes_tmp)) {
-                if ($this->findFirstMatchingStatement($object, null, null)
-                    || $this->findFirstMatchingStatement(null, null, $object)
-                ) {
+                $res1 = $this->findFirstMatchingStatement($object, null, null);
+                if (PEAR::isError($res1)) {
+                    return $res1;
+                }
+                $res2 = $this->findFirstMatchingStatement(null, null, $object);
+                if (PEAR::isError($res2)) {
+                    return $res2;
+                }
+                if ($res1 || $res2) {
                     $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
+                    if (PEAR::isError($blankNodes_tmp[$label])) {
+                        return $blankNodes_tmp[$label];
+                    }
                     $statement->obj = $blankNodes_tmp[$label];
                 } else {
                     $blankNodes_tmp[$label] = $object;
@@ -118,7 +142,7 @@ class RDF_Model extends RDF_Object
             }
         }
 
-        $this->add($statement);
+        return $this->add($statement);
     }
 } // end: Model
 

@@ -30,7 +30,7 @@ class RDF_BlankNode extends RDF_Resource
      */
     function factory($namespace_or_uri_or_model , $localName = null)
     {
-        $blanknode = new RDF_BlankNode;
+        $blanknode =& new RDF_BlankNode;
         if (is_a($namespace_or_uri_or_model, 'RDF_Model')) {
             // generate identifier
             $id = $namespace_or_uri_or_model->getUniqueResourceURI(RDF_BNODE_PREFIX);

@@ -48,7 +48,7 @@ class RDF_Statement extends RDF_Object
      */
     function factory($subj, $pred, $obj)
     {
-        $statement = new RDF_Statement;
+        $statement =& new RDF_Statement;
 
         $return = $statement->setSubject($subj);
         if (PEAR::isError($return)) {
@@ -256,9 +256,31 @@ class RDF_Statement extends RDF_Object
             return false;
         }
 
-        return $this->subj->equals($that->getSubject())
-            && $this->pred->equals($that->getPredicate())
-            && $this->obj->equals($that->getObject());
+        $result = $this->subj->equals($that->getSubject());
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!$result) {
+            return false;
+        }
+
+        $result = $this->pred->equals($that->getPredicate());
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!$result) {
+            return false;
+        }
+
+        $result = $this->obj->equals($that->getObject());
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!$result) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -296,17 +318,64 @@ class RDF_Statement extends RDF_Object
             $statementModel =& new RDF_Model_Memory();
             $thisStatement =& RDF_BlankNode::factory($model_or_bNodeID);
         }
+        if (PEAR::isError($thisStatement)) {
+            return $thisStatement;
+        }
 
         $RDFstatement =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_STATEMENT);
+        if (PEAR::isError($RDFstatement)) {
+            return $RDFstatement;
+        }
         $RDFtype =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_TYPE);
+        if (PEAR::isError($RDFtype)) {
+            return $RDFtype;
+        }
         $RDFsubject =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_SUBJECT);
+        if (PEAR::isError($RDFsubject)) {
+            return $RDFsubject;
+        }
         $RDFpredicate =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_PREDICATE);
+        if (PEAR::isError($RDFpredicate)) {
+            return $RDFpredicate;
+        }
         $RDFobject =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_OBJECT);
+        if (PEAR::isError($RDFobject )) {
+            return $RDFobject ;
+        }
 
-        $statementModel->add(RDF_Statement::factory($thisStatement, $RDFtype, $RDFstatement));
-        $statementModel->add(RDF_Statement::factory($thisStatement, $RDFsubject, $this->getSubject()));
-        $statementModel->add(RDF_Statement::factory($thisStatement, $RDFpredicate, $this->getPredicate()));
-        $statementModel->add(RDF_Statement::factory($thisStatement, $RDFobject, $this->getObject()));
+        $statement =& RDF_Statement::factory($thisStatement, $RDFtype, $RDFstatement);
+        if (PEAR::isError($statement)) {
+            return $statement;
+        }
+        $result = $statementModel->add($statement);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $statement =& RDF_Statement::factory($thisStatement, $RDFsubject, $this->getSubject());
+        if (PEAR::isError($statement)) {
+            return $statement;
+        }
+        $result = $statementModel->add($statement);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $statement =& RDF_Statement::factory($thisStatement, $RDFpredicate, $this->getPredicate());
+        if (PEAR::isError($statement)) {
+            return $statement;
+        }
+        $result = $statementModel->add($statement);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $statement =& RDF_Statement::factory($thisStatement, $RDFobject, $this->getObject());
+        if (PEAR::isError($statement)) {
+            return $statement;
+        }
+        $result = $statementModel->add($statement);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+
         return $statementModel;
     }
 } // end: Statement

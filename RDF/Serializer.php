@@ -332,9 +332,17 @@ class RDF_Serializer extends RDF_Object
             $predicate = $statement->getPredicate();
             $object = $statement->getobject();
             // write Group and update current subject if nessesary
-            if ($this->m_currentSubject == null
-                || !$this->m_currentSubject->equals($subject)
-            ) {
+            $result = $this->m_currentSubject;
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if ($this->m_currentSubject) {
+                $result = $this->m_currentSubject->equals($subject);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
+            }
+            if (!$result) {
                 $this->writeGroup();
                 $this->m_currentSubject = $subject;
             }
@@ -380,6 +388,9 @@ class RDF_Serializer extends RDF_Object
         }
         if ($this->m_groupTypeStatement != null) {
             $outerElementName = $this->getElementText($this->m_groupTypeStatement->obj->getURI());
+            if (PEAR::isError($outerElementName)) {
+                return $outerElementName;
+            }
         } else {
             $outerElementName = $this->rdf_qname_prefix . RDF_DESCRIPTION;
         }
@@ -418,7 +429,11 @@ class RDF_Serializer extends RDF_Object
     function checkForDoubleAttributes($predicate)
     {
         foreach($this->m_attributeStatements as $key => $statement) {
-            if ($statement->pred->equals($predicate)) {
+            $result = $statement->pred->equals($predicate);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            if ($result) {
                 return false;
             }
         }
@@ -478,7 +493,11 @@ class RDF_Serializer extends RDF_Object
         foreach($this->m_attributeStatements as $key => $statement) {
             $this->m_out .= RDF_LINEFEED;
             $this->m_out .= RDF_INDENTATION;
-            $this->m_out .= $this->getElementText($statement->pred->getURI());
+            $result = $this->getElementText($statement->pred->getURI());
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            $this->m_out .= $result;
             $this->m_out .= '=';
             $value = $statement->obj->getLabel();
             $quote = $this->getValueQuoteType($value);
@@ -498,6 +517,9 @@ class RDF_Serializer extends RDF_Object
             $this->m_out .= RDF_INDENTATION;
             $this->m_out .= '<';
             $predicateElementText = $this->getElementText($statement->pred->getURI());
+            if (PEAR::isError($predicateElementText)) {
+                return $predicateElementText;
+            }
             $this->m_out .= $predicateElementText;
 
             if (is_a($statement->obj, 'RDF_Resource')) {

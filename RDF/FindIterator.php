@@ -56,7 +56,7 @@ class RDF_FindIterator extends RDF_Object
     */
     function RDF_FindIterator(&$model, &$sub, &$pred, &$obj)
     {
-        $this->model = &$model;
+        $this->model =& $model;
         $this->subject =& $sub;
         $this->predicate =& $pred;
         $this->object =& $obj;

@@ -47,7 +47,7 @@ class RDF_Literal extends RDF_Node
      */
     function factory($str, $language = null)
     {
-        $literal = new RDF_Literal;
+        $literal =& new RDF_Literal;
 
         $literal->dtype = null;
         $literal->label = $str;
