@@ -54,7 +54,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function RDF_Model_MDB(&$dbConnection, $modelURI, $modelID, $baseURI = null)
     {
-        $this->dbConn = &$dbConnection;
+        $this->dbConn =& $dbConnection;
         $this->modelURI = $modelURI;
         $this->modelID = $modelID;
         $this->baseURI = $this->_checkBaseURI($baseURI);
@@ -191,7 +191,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function toStringIncludingTriples()
     {
-        $Model_Memory = &$this->getMemModel();
+        $Model_Memory =& $this->getMemModel();
         return $Model_Memory->toStringIncludingTriples();
     }
 
@@ -214,7 +214,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeAsHtml()
     {
-        $Model_Memory = &$this->getMemModel();
+        $Model_Memory =& $this->getMemModel();
         $Model_Memory->writeAsHtml();
     }
 
@@ -225,7 +225,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeAsHtmlTable()
     {
-        $Model_Memory = &$this->getMemModel();
+        $Model_Memory =& $this->getMemModel();
         RDF_Util::writeHTMLTable($Model_Memory);
     }
 
@@ -237,7 +237,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeRDFToString()
     {
-        $Model_Memory = &$this->getMemModel();
+        $Model_Memory =& $this->getMemModel();
         return $Model_Memory->writeRDFToString();
     }
 
@@ -300,7 +300,9 @@ class RDF_Model_MDB extends RDF_Model
             return true;
         } elseif (is_a($model, 'RDF_Model_MDB')) {
             $result = $this->_getRecordSet($model);
-            while (is_array($row = $this->dbConn->fetchInto($result))) {
+            $all = $this->dbConn->fetchAll($result);
+            reset($all);
+            while (is_array($row = next($all))) {
                 if (!$this->_containsRow($row)) {
                     return false;
                 }
@@ -330,8 +332,10 @@ class RDF_Model_MDB extends RDF_Model
             }
             return false;
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $result = &$this->_getRecordSet($model);
-            while (is_array($row = $this->dbConn->fetchInto($result))) {
+            $result =& $this->_getRecordSet($model);
+            $all = $this->dbConn->fetchAll($result);
+            reset($all);
+            while (is_array($row = next($all))) {
                 if ($this->_containsRow($row)) {
                     return true;
                 }
@@ -405,7 +409,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function findRegex($subject_regex, $predicate_regex, $object_regex)
     {
-        $mm = &$this->getMemModel();
+        $mm =& $this->getMemModel();
 
         return $mm->findRegex($subject_regex, $predicate_regex, $object_regex);
     }
@@ -598,7 +602,11 @@ class RDF_Model_MDB extends RDF_Model
             return false;
         }
 
-        if (!$this->containsAll($that)) {
+        $result = $this->containsAll($that);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!$result) {
             return false;
         }
         return true;
@@ -638,11 +646,11 @@ class RDF_Model_MDB extends RDF_Model
         }
 
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel = &$this->getMemModel();
+            $thisModel =& $this->getMemModel();
             return $thisModel->unite($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel = &$this->getMemModel();
-            $thatModel = &$model->getMemModel();
+            $thisModel =& $this->getMemModel();
+            $thatModel =& $model->getMemModel();
             return $thisModel->unite($thatModel);
         }
     }
@@ -665,11 +673,11 @@ class RDF_Model_MDB extends RDF_Model
         }
 
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel = &$this->getMemModel();
+            $thisModel =& $this->getMemModel();
             return $thisModel->subtract($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel = &$this->getMemModel();
-            $thatModel = &$model->getMemModel();
+            $thisModel =& $this->getMemModel();
+            $thatModel =& $model->getMemModel();
             return $thisModel->subtract($thatModel);
         }
     }
@@ -686,11 +694,11 @@ class RDF_Model_MDB extends RDF_Model
     function &intersect(&$model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel = &$this->getMemModel();
+            $thisModel =& $this->getMemModel();
             return $thisModel->intersect($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel = &$this->getMemModel();
-            $thatModel = &$model->getMemModel();
+            $thisModel =& $this->getMemModel();
+            $thatModel =& $model->getMemModel();
             return $thisModel->intersect($thatModel);
         }
 
@@ -723,7 +731,10 @@ class RDF_Model_MDB extends RDF_Model
         if (is_a($model, 'RDF_Model_Memory')) {
             $this->dbConn->autoCommit(false);
             foreach ($model->triples as $statement) {
-                $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
+                $result = $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
             $this->dbConn->commit();
             $this->dbConn->autoCommit(true);
@@ -731,7 +742,10 @@ class RDF_Model_MDB extends RDF_Model
             $this->dbConn->autoCommit(false);
             $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $statement) {
-                $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
+                $result = $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
             }
             $this->dbConn->commit();
             $this->dbConn->autoCommit(true);
@@ -747,7 +761,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function &reify()
     {
-        $Model_Memory = &$this->getMemModel();
+        $Model_Memory =& $this->getMemModel();
         return $Model_Memory->reify();
     }
 
@@ -803,8 +817,17 @@ class RDF_Model_MDB extends RDF_Model
         while (true) {
             $uri = $this->getBaseURI() . $prefix . $counter;
             $tempbNode =& RDF_BlankNode::factory($uri);
+            if (PEAR::isError($tempbNode)) {
+                return $tempbNode;
+            }
             $res1 = $this->find($tempbNode, null, null);
+            if (PEAR::isError($res1)) {
+                return $res1;
+            }
             $res2 = $this->find(null, null, $tempbNode);
+            if (PEAR::isError($res2)) {
+                return $res2;
+            }
             if ($res1->size() == 0 && $res2->size() == 0) {
                 return $uri;
             }
@@ -864,29 +887,51 @@ class RDF_Model_MDB extends RDF_Model
     function _convertRecordSetToMemModel($result)
     {
         $res =& new RDF_Model_Memory($this->getBaseURI());
-        while (is_array($row = $this->dbConn->fetchInto($result))) {
+        $all = $this->dbConn->fetchAll($result);
+        reset($all);
+        while (is_array($row = next($all))) {
             // subject
             if ($row[5] == 'r') {
                 $sub =& RDF_Resource::factory($row[0]);
             } else {
                 $sub =& RDF_BlankNode::factory($row[0]);
             }
+            if (PEAR::isError($sub)) {
+                return $sub;
+            }
             // predicate
             $pred =& RDF_Resource::factory($row[1]);
+            if (PEAR::isError($pred)) {
+                return $pred;
+            }
             // object
             if ($row[6] == 'r') {
                 $obj =& RDF_Resource::factory($row[2]);
+                if (PEAR::isError($obj)) {
+                    return $obj;
+                }
             } elseif ($row[6] == 'b') {
                 $obj =& RDF_BlankNode::factory($row[2]);
+                if (PEAR::isError($obj)) {
+                    return $obj;
+                }
             } else {
                 $obj =& RDF_Literal::factory($row[2], $row[3]);
+                if (PEAR::isError($obj)) {
+                    return $obj;
+                }
                 if ($row[4]) {
                     $obj->setDatatype($row[4]);
                 }
             }
-
             $statement =& RDF_Statement::factory($sub, $pred, $obj);
-            $res->add($statement);
+            if (PEAR::isError($statement)) {
+                return $statement;
+            }
+            $result = $res->add($statement);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
         }
         $this->dbConn->freeResult($result);
         return $res;
@@ -972,7 +1017,7 @@ class RDF_Model_MDB extends RDF_Model
                 AND subject_is=' . $this->dbConn->getValue('text', $row[5]) . '
                 AND object_is=' . $this->dbConn->getValue('text', $row[6]);
 
-        $result = &$this->dbConn->queryOne($sql);
+        $result =& $this->dbConn->queryOne($sql);
 
         if (MDB::isError($result)) {
             return $result;
