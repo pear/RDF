@@ -10,7 +10,6 @@
 
 
 <?php
-ini_set('include_path', '..'.DIRECTORY_SEPARATOR.'..'.PATH_SEPARATOR.ini_get('include_path'));
 include 'RDF.php';
 include 'RDF/Model/Memory.php';
 

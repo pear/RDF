@@ -186,7 +186,6 @@ xmlns:s="http://description.org/schema/">
     // Process RDF
     // (if submitted and RDF smaller than 10000 chars)
     // ///////////////////////////////////////////////////////////////
-    ini_set('include_path', '..'.DIRECTORY_SEPARATOR.'..'.PATH_SEPARATOR.ini_get('include_path'));
     include 'RDF.php';
     include 'RDF/Model/Memory.php';
     // Prepare RDF

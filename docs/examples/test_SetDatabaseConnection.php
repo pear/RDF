@@ -20,7 +20,6 @@
 
 <?php 
 // Include RAP
-ini_set('include_path', '..'.DIRECTORY_SEPARATOR.'..'.PATH_SEPARATOR.ini_get('include_path'));
 include 'RDF.php';
 include 'RDF/Store/MDB.php';
 // # 1. Connect to MsAccess database (via ODBC) and create tables.
