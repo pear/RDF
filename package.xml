@@ -2,8 +2,8 @@
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>RDF</name>
-  <summary>Port of the RAP API</summary>
-  <description>This package is a port of the core components of the RAP package:
+  <summary>Port of the core RAP API</summary>
+  <description>This package is a port of the core components of the RDF API for PHP (aka RAP):
 http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/.</description>
   <maintainers>
     <maintainer>

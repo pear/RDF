@@ -8,7 +8,7 @@ $notes = <<<EOT
 EOT;
 
 $description =<<<EOT
-This package is a port of the core components of the RAP package:
+This package is a port of the core components of the RDF API for PHP (aka RAP):
 http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/.
 EOT;
 
@@ -16,7 +16,7 @@ $package = new PEAR_PackageFileManager();
 
 $result = $package->setOptions(array(
     'package'           => 'RDF',
-    'summary'           => 'Port of the RAP API',
+    'summary'           => 'Port of the core RAP API',
     'description'       => $description,
     'version'           => $version,
     'state'             => 'alpha',
