@@ -347,7 +347,7 @@ class RDF_Error extends PEAR_Error
 require_once 'RDF/Util.php';
 require_once 'RDF/Literal.php';
 require_once 'RDF/Resource.php';
-require_once 'RDF/Blanknode.php';
+require_once 'RDF/BlankNode.php';
 require_once 'RDF/Statement.php';
 require_once 'RDF/StatementIterator.php';
 
