@@ -142,7 +142,7 @@ class RDF_Model_MDB extends RDF_Model
             }
 
             $result = $this->dbConn->query($sql);
-            if (MDB::isError($result)) {
+            if (PEAR::isError($result)) {
                 return $result;
             }
         }
@@ -275,7 +275,7 @@ class RDF_Model_MDB extends RDF_Model
 
         $result = $this->dbConn->queryOne($sql);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
 
@@ -380,7 +380,7 @@ class RDF_Model_MDB extends RDF_Model
         // execute the query
         $result = $this->dbConn->query($sql);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         // write the recordSet into memory Model
         }
@@ -435,7 +435,7 @@ class RDF_Model_MDB extends RDF_Model
 
         $result = $this->dbConn->query($sql);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         // write the recordSet into memory Model
         }
@@ -474,7 +474,7 @@ class RDF_Model_MDB extends RDF_Model
         $this->dbConn->setSelectedRowRange(0, 1);
         $result = $this->dbConn->query($sql);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
         if (!$this->dbConn->numRows($result)) {
@@ -785,7 +785,7 @@ class RDF_Model_MDB extends RDF_Model
 
         $result = $this->dbConn->commit();
         $this->dbConn->autoCommit(true);
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
         return $this->close();
@@ -1019,7 +1019,7 @@ class RDF_Model_MDB extends RDF_Model
 
         $result =& $this->dbConn->queryOne($sql);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
         return (bool)$result;
