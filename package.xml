@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>RDF</name>
+  <summary>Port of the RAP API</summary>
+  <description>This package is a port of the core components of the RAP package:
+http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/.</description>
+  <maintainers>
+    <maintainer>
+      <user>lsmith</user>
+      <name>Lukas Kahwe Smith</name>
+      <email>smith@backendmedia.com</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>davey</user>
+      <name>Davey Shafik</name>
+      <email>davey@php.net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.0.1alpha1</version>
+    <date>2004-09-21</date>
+    <license>LGPL</license>
+    <state>alpha</state>
+    <notes>- initial release</notes>
+    <deps>
+      <dep type="php" rel="ge" version="4.2.0" optional="no"/>
+      <dep type="pkg" rel="ge" version="1.0b1" optional="no">PEAR</dep>
+      <dep type="pkg" rel="has" optional="yes">MDB</dep>
+    </deps>
+    <filelist>
+      <dir baseinstalldir="/" name="/">
+       <dir name="docs">
+        <dir name="examples">
+         <file role="doc" name="custom_test.php"/>
+         <file role="doc" name="employees.rdf"/>
+         <file role="doc" name="example1.rdf"/>
+         <file role="doc" name="Output.n3"/>
+         <file role="doc" name="Output.rdf"/>
+         <file role="doc" name="phpdoc.css"/>
+         <file role="doc" name="phpdoc.dtd"/>
+         <file role="doc" name="php_logo.gif"/>
+         <file role="doc" name="rdf_metadata_button.gif"/>
+         <file role="doc" name="test_ManipulateModelMDB.php"/>
+         <file role="doc" name="test_ManipulateModelMemory.php"/>
+         <file role="doc" name="test_SerializerOptions.php"/>
+         <file role="doc" name="test_SetDatabaseConnection.php"/>
+         <file role="doc" name="test_setOperations.php"/>
+         <file role="doc" name="test_StoringModelsInDatabase.php"/>
+         <file role="doc" name="test_TraverseModel.php"/>
+        </dir> <!-- docs/examples -->
+       </dir> <!-- docs -->
+       <dir name="misc">
+        <file role="data" name="database_schema.xml"/>
+       </dir> <!-- misc -->
+       <dir name="RDF">
+        <file role="php" name="BlankNode.php"/>
+        <file role="php" name="FindIterator.php"/>
+        <file role="php" name="Literal.php"/>
+        <file role="php" name="Model.php"/>
+        <file role="php" name="Node.php"/>
+        <file role="php" name="Parser.php"/>
+        <file role="php" name="Resource.php"/>
+        <file role="php" name="Serializer.php"/>
+        <file role="php" name="Statement.php"/>
+        <file role="php" name="StatementIterator.php"/>
+        <file role="php" name="Util.php"/>
+        <dir name="Model">
+         <file role="php" name="MDB.php"/>
+         <file role="php" name="Memory.php"/>
+        </dir> <!-- RDF/Model -->
+        <dir name="Store">
+         <file role="php" name="MDB.php"/>
+        </dir> <!-- RDF/Store -->
+        <dir name="Vocabulary">
+         <file role="php" name="DC.php"/>
+         <file role="php" name="OWL.php"/>
+         <file role="php" name="RDF.php"/>
+         <file role="php" name="RDFS.php"/>
+         <file role="php" name="VCARD.php"/>
+        </dir> <!-- RDF/Vocabulary -->
+       </dir> <!-- RDF -->
+       <file role="php" name="RDF.php"/>
+      </dir> <!-- / -->
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.0.1alpha1</version>
+      <date>2004-09-21</date>
+      <license>LGPL</license>
+      <state>alpha</state>
+      <notes>- initial release</notes>
+    </release>
+  </changelog>
+</package>
