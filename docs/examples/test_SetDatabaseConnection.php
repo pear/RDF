@@ -39,8 +39,9 @@ $rdf_database =& new RDF_Store_MDB(
         'database' => 'rdf2'
     ), array());
 
+$filename = '[path_path]/data/RDF/misc/database_schema.xml';
 // Create tables for MySQL
-var_dump($rdf_database->createTables());
+var_dump($rdf_database->createTables($filename));
 
 // Close the connection
 $rdf_database->close();
