@@ -20,7 +20,7 @@ http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/.</description>
     </maintainer>
   </maintainers>
   <release>
-    <version>0.0.1alpha1</version>
+    <version>0.1.0alpha1</version>
     <date>2004-09-21</date>
     <license>LGPL</license>
     <state>alpha</state>
@@ -88,7 +88,7 @@ http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/.</description>
   </release>
   <changelog>
     <release>
-      <version>0.0.1alpha1</version>
+      <version>0.1.0alpha1</version>
       <date>2004-09-21</date>
       <license>LGPL</license>
       <state>alpha</state>
