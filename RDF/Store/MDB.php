@@ -23,8 +23,6 @@ class RDF_Store_MDB extends RDF_Object
      */
     var $dbConn;
 
-    var $database;
-
     /**
      * Set the database connection with the given parameters.
      *
@@ -42,23 +40,28 @@ class RDF_Store_MDB extends RDF_Object
     /**
      * Create tables and indexes for the given database type.
      *
+     * @param string $filename
      * @throws PhpError
      * @access public
      */
-    function createTables()
+    function createTables($filename)
     {
         MDB::loadFile('Manager');
         $manager =& new MDB_Manager;
         $err = $manager->connect($this->dbConn);
-        if(MDB::isError($err)) {
+        if(PEAR::isError($err)) {
             return $err;
         }
-        $filename = dirname(__FILE__).'/database_schema.xml';
-        $err = $manager->updateDatabase($filename, $filename.'.old', array('database' => $this->dbConn->database_name));
-        if(MDB::isError($err)) {
+        $err = $manager->updateDatabase(
+            $filename,
+            $filename.'.old',
+            array('database' => $this->dbConn->database_name)
+        );
+        if(PEAR::isError($err)) {
             return $err;
         }
         $dsn = $this->dbConn->getDSN();
+        // cant we remove this ugly hack?
         if (isset($dsn['phptype']) && $dsn['phptype'] == 'mysql') {
             $this->dbConn->query('CREATE INDEX s_mod_idx ON statements (modelID)');
             $sql = 'CREATE INDEX s_sub_pred_idx ON statements (subject(200),predicate(200))';
@@ -78,15 +81,7 @@ class RDF_Store_MDB extends RDF_Object
     function listModels()
     {
         $sql = 'SELECT modelURI, baseURI FROM models';
-        $result = $this->dbConn->queryAll($sql);
-        if (MDB::isError($result)) {
-            return $result;
-        }
-        for ($i=0,$j=count($result);$i<$j;++$i) {
-            $models[$i]['modelURI'] = $result[$i][0];
-            $models[$i]['baseURI'] = $result[$i][1];
-        }
-        return $models;
+        return $this->dbConn->queryAll($sql, MDB_FETCHMODE_ASSOC);
     }
 
     /**
@@ -103,9 +98,11 @@ class RDF_Store_MDB extends RDF_Object
             FROM models
             WHERE modelURI = ' . $this->dbConn->getValue('text', $modelURI);
         $result = $this->dbConn->queryOne($sql);
-        if (MDB::isError($result)) {
+
+        if (PEAR::isError($result)) {
             return $result;
         }
+
         return (bool)$result;
     }
 
@@ -122,14 +119,14 @@ class RDF_Store_MDB extends RDF_Object
     {
         if (!$this->modelExists($modelURI)) {
             return false;
-        } else {
-            $sql = 'SELECT modelURI, modelID, baseURI FROM models
-                WHERE modelURI=' . $this->dbConn->getValue('text', $modelURI);
-            $modelVars = $this->dbConn->queryRow($sql);
-
-            return new RDF_Model_MDB($this->dbConn, $modelVars[0],
-                $modelVars[1], $modelVars[2]);
         }
+
+        $sql = 'SELECT modelURI, modelID, baseURI FROM models
+            WHERE modelURI=' . $this->dbConn->getValue('text', $modelURI);
+        $modelVars = $this->dbConn->queryRow($sql);
+
+        return new RDF_Model_MDB($this->dbConn, $modelVars[0],
+            $modelVars[1], $modelVars[2]);
     }
 
     /**
@@ -161,7 +158,7 @@ class RDF_Store_MDB extends RDF_Object
 
         $this->dbConn->autoCommit(true);
 
-        if (MDB::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
 
@@ -186,10 +183,8 @@ class RDF_Store_MDB extends RDF_Object
             } else {
                 $modelURI = $model->modelURI;
             }
-        } else {
-            if ($this->modelExists($modelURI)) {
-                return false;
-            }
+        } elseif ($this->modelExists($modelURI)) {
+            return false;
         }
 
         $newmodel = $this->getNewModel($modelURI, $model->getBaseURI());
@@ -220,6 +215,7 @@ class RDF_Store_MDB extends RDF_Object
      */
     function _createUniqueModelID()
     {
+        // move to a sequence?
         $sql = 'SELECT MAX(modelID) FROM models';
         $maxModelID = $this->dbConn->queryOne($sql);
         ++$maxModelID;
