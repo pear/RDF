@@ -50,9 +50,18 @@ class RDF_Statement extends RDF_Object
     {
         $statement = new RDF_Statement;
 
-        $statement->setSubject($subj);
-        $statement->setPredicate($pred);
-        $statement->setObject($obj);
+        $return = $statement->setSubject($subj);
+        if (PEAR::isError($return)) {
+            return $return;
+        }
+        $return = $statement->setPredicate($pred);
+        if (PEAR::isError($return)) {
+            return $return;
+        }
+        $return = $statement->setObject($obj);
+        if (PEAR::isError($return)) {
+            return $return;
+        }
 
         return $statement;
     }
