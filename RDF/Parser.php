@@ -578,10 +578,10 @@ class RDF_Parser extends RDF_Object
         }
 
         if (!$result) {
-            RDF::raiseError(RDF_ERROR, null, null, 'illegal ID, nodeID or bagID attribute value');
-        } else {
-            return true;
+            return RDF::raiseError(RDF_ERROR, null, null, 'illegal ID, nodeID or bagID attribute value');
         }
+
+        return true;
     }
 
     /**
@@ -675,7 +675,17 @@ class RDF_Parser extends RDF_Object
         }
 
         // call add statement
-        $this->add_statement_to_model($this->rdf_parser['user_data'], $subject_type, $subject, $predicate, $ordinal, $object_type, $object, $xml_lang, $datatype);
+        $this->add_statement_to_model(
+            $this->rdf_parser['user_data'],
+            $subject_type,
+            $subject,
+            $predicate,
+            $ordinal,
+            $object_type,
+            $object,
+            $xml_lang,
+            $datatype
+        );
 
         if ($bag_id) {
             if ($statements == '') {
@@ -967,7 +977,7 @@ class RDF_Parser extends RDF_Object
                 $errmsg = 'unknown or out of context rdf node element: ' . $local_name;
 
                 if ($this->_is_forbidden_rdf_node_element($local_name)) {
-                    RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+                    return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
                 } else {
                     $this->_report_warning($errmsg);
                 }
@@ -999,10 +1009,10 @@ class RDF_Parser extends RDF_Object
                     ++$subjects_found;
                 } else if ($attribute_local_name == RDF_ABOUT_EACH) {
                     $errmsg = 'aboutEach has been removed from the RDF specifications';
-                    RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+                    return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
                 } else if ($attribute_local_name == RDF_ABOUT_EACH_PREFIX) {
                     $errmsg = 'aboutEachPrefix has been removed from the RDF specifications';
-                    RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+                    return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
                 } else if ($attribute_local_name == RDF_BAG_ID) {
                     $bag_id = $attribute_value;
                 } else if ($attribute_local_name == RDF_DATATYPE) {
@@ -1017,7 +1027,7 @@ class RDF_Parser extends RDF_Object
                     $errmsg = 'unknown or out of context rdf attribute: ' . $attribute_local_name;
 
                     if ($this->_is_forbidden_rdf_property_attribute($attribute_local_name)) {
-                        RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+                        return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
                     } else {
                         $this->_report_warning($errmsg);
                     }
@@ -1038,7 +1048,7 @@ class RDF_Parser extends RDF_Object
             $this->rdf_parser['top']['subject'] = $id_buffer;
             $this->rdf_parser['top']['subject_type'] = RDF_SUBJECT_TYPE_BNODE;
         } else if ($subjects_found > 1) {
-            RDF::raiseError(RDF_ERROR, null, null, 'ID, about and nodeID are mutually exclusive');
+            return RDF::raiseError(RDF_ERROR, null, null, 'ID, about and nodeID are mutually exclusive');
         } else if ($id) {
             $this->_resolve_id($id, $id_buffer);
             $this->rdf_parser['top']['subject_type'] = RDF_SUBJECT_TYPE_URI;
@@ -1155,7 +1165,7 @@ class RDF_Parser extends RDF_Object
                 $errmsg = 'unknown or out of context rdf property element: ' . $local_name;
 
                 if ($this->_is_forbidden_rdf_property_element($local_name)) {
-                    RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+                    return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
                 } else {
                     $this->_report_warning($errmsg);
                 }
@@ -1233,7 +1243,8 @@ class RDF_Parser extends RDF_Object
             $this->is_valid_id($node_id);
 
             if ($resource) {
-                RDF::raiseError(RDF_ERROR, null, null, 'nodeID and resource are mutually exclusive');
+                return RDF::raiseError(RDF_ERROR, null, null,
+                    'nodeID and resource are mutually exclusive');
             }
             if ($statement_id) {
                 // reify statement
@@ -1272,7 +1283,8 @@ class RDF_Parser extends RDF_Object
 
         if ($parse_type) {
             if ($resource) {
-                RDF::raiseError(RDF_ERROR, null, null, 'property elements with rdf:parseType do not allow rdf:resource');
+                return RDF::raiseError(RDF_ERROR, null, null,
+                    'property elements with rdf:parseType do not allow rdf:resource');
             }
 
             if ($bag_id) {
@@ -1281,8 +1293,8 @@ class RDF_Parser extends RDF_Object
             }
 
             if ($this->rdf_parser['top']['has_property_attributes']) {
-                RDF::raiseError(RDF_ERROR, null, null, 'property elements with rdf:parseType do not allow property attributes');
-                return;
+                return RDF::raiseError(RDF_ERROR, null, null,
+                    'property elements with rdf:parseType do not allow property attributes');
             }
 
             if ($attribute_value == RDF_PARSE_TYPE_RESOURCE) {
@@ -1958,10 +1970,9 @@ class RDF_Parser extends RDF_Object
             if (!$this->rdf_parse($base, true)) {
                 $err_code = xml_get_error_code($this->rdf_get_xml_parser());
                 $line = xml_get_current_line_number($this->rdf_get_xml_parser());
-                $errmsg = RDF_ERROR .
-                    '(class: parser; method: generateModel): XML-parser-error ' .
+                $errmsg = '(class: parser; method: generateModel): XML-parser-error ' .
                     $err_code . ' in Line ' . $line . ' of input document.';
-                return RDF::raiseError(RDF_RDQL_ERR, null, null, $errmsg);
+                return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
             }
         }
         // base_uri could have changed while parsing
