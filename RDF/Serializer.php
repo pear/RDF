@@ -449,7 +449,7 @@ class RDF_Serializer extends RDF_Object
     {
         $uri_namespace = RDF_Util::guessNamespace($uri);
         if ($uri_namespace == $this->m_baseURI) {
-            return RDF_guessName($uri);
+            return RDF_Util::guessName($uri);
         } else {
             return $uri;
         }
