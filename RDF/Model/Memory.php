@@ -23,7 +23,7 @@ class RDF_Model_Memory extends RDF_Model
      * Triples of the Model_Memory
      *
      * @var array
-     * @access private
+     * @access protected
      */
     var $triples = array();
 
@@ -31,7 +31,7 @@ class RDF_Model_Memory extends RDF_Model
      * Search index
      *
      * @var array
-     * @access private
+     * @access protected
      */
     var $index;
 
@@ -39,7 +39,7 @@ class RDF_Model_Memory extends RDF_Model
      * This is set to true if the Model_Memory is indexed
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
     var $indexed;
 
@@ -641,7 +641,7 @@ class RDF_Model_Memory extends RDF_Model
      * @param object Node    $predicate
      * @param object Node    $object
      * @return boolean
-     * @access private
+     * @access protected
      */
     function matchStatement($statement, $subject, $predicate, $object)
     {
@@ -684,7 +684,7 @@ class RDF_Model_Memory extends RDF_Model
      *
      * @param string $prefix
      * @return string
-     * @access private
+     * @access protected
      */
 
     function getUniqueResourceURI($prefix)

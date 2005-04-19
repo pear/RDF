@@ -18,7 +18,7 @@ class RDF_StatementIterator extends RDF_Object
      * Reference to the Model_Memory
      *
      * @var object Model_Memory
-     * @access private
+     * @access protected
      */
     var $model;
 
@@ -28,7 +28,7 @@ class RDF_StatementIterator extends RDF_Object
      * so you can use serveral iterators on a single Model_Memory.
      *
      * @var integer
-     * @access private
+     * @access protected
      */
     var $position;
 

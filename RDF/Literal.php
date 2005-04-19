@@ -22,14 +22,14 @@ class RDF_Literal extends RDF_Node
      * Label of the literal
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $label;
     /**
      * Language of the literal
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $lang;
 
@@ -37,7 +37,7 @@ class RDF_Literal extends RDF_Node
      * Datatype of the literal
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $dtype;
 

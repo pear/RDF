@@ -22,7 +22,7 @@ class RDF_FindIterator extends RDF_Object
      /**
     * Reference to the Model_Memory
     * @var     object Model_Memory
-    * @access  private
+    * @access  protected
     */
     var $model;
 
@@ -31,7 +31,7 @@ class RDF_FindIterator extends RDF_Object
     * RDF_FindIterator does not use the build in PHP array iterator,
     * so you can use serveral iterators on a single Model_Memory.
     * @var     integer
-    * @access  private
+    * @access  protected
     */
     var $position;
 
@@ -39,7 +39,7 @@ class RDF_FindIterator extends RDF_Object
     * Searchpattern
     * 
     * @var     Object Subject, Predicate, Object
-    * @access  private
+    * @access  protected
     */
     var $subject;
     var $predicate;

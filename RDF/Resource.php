@@ -26,7 +26,7 @@ class RDF_Resource extends RDF_Node
      * URIref to the resource
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $uri;
 

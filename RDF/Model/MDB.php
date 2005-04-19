@@ -20,7 +20,7 @@ class RDF_Model_MDB extends RDF_Model
      * Database connection object
      *
      * @var object MDB driver instance
-     * @access private
+     * @access protected
      */
     var $dbConn;
 
@@ -29,7 +29,7 @@ class RDF_Model_MDB extends RDF_Model
      * Used to identify the Model_MDB.
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $modelURI;
 
@@ -38,7 +38,7 @@ class RDF_Model_MDB extends RDF_Model
      * Used to avoid JOINs.
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $modelID;
 
@@ -801,7 +801,7 @@ class RDF_Model_MDB extends RDF_Model
     }
 
     // =============================================================================
-    // **************************** private methods ********************************
+    // **************************** protected methods ********************************
     // =============================================================================
     /**
      * Internal method, that returns a resource URI that is unique for the Model_MDB.
@@ -809,7 +809,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param string $prefix
      * @return string
-     * @access private
+     * @access protected
      */
     function getUniqueResourceURI($prefix)
     {
@@ -841,7 +841,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param string $uri
      * @return string
-     * @access private
+     * @access protected
      */
     function _checkBaseURI($uri)
     {
@@ -861,7 +861,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param object Node $object
      * @return string
-     * @access private
+     * @access protected
      */
     function _getNodeFlag($object)
     {
@@ -882,7 +882,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param ressource MDB Result
      * @return object Model_Memory
-     * @access private
+     * @access protected
      */
     function _convertRecordSetToMemModel($result)
     {
@@ -945,7 +945,7 @@ class RDF_Model_MDB extends RDF_Model
      * @param object Resource $predicate
      * @param object Node     $object
      * @return string
-     * @access private
+     * @access protected
      */
     function _createDynSqlPart_SPO($subject, $predicate, $object)
     {
@@ -984,7 +984,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param object Model_MDB  $Model_MDB
      * @return resource MDB result
-     * @access private
+     * @access protected
      */
     function _getRecordSet(&$model)
     {
@@ -1003,7 +1003,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param array $row
      * @return boolean
-     * @access private
+     * @access protected
      */
     function _containsRow($row)
     {
@@ -1033,7 +1033,7 @@ class RDF_Model_MDB extends RDF_Model
      *
      * @param array $row
      * @throws SqlError
-     * @access private
+     * @access protected
      */
     function _insertRow ($row)
     {

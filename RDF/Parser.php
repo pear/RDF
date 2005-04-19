@@ -26,11 +26,11 @@ class RDF_Parser extends RDF_Object
     var $rdf_parser;
     var $model;
 
-    /* Private Methods */
+    /* protected Methods */
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function _new_element()
     {
@@ -58,7 +58,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $source
      * @param string &$destination
-     * @access private
+     * @access protected
      */
     function _copy_element($source, &$destination)
     {
@@ -73,7 +73,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string &$e
-     * @access private
+     * @access protected
      */
     function _clear_element(&$e)
     {
@@ -115,7 +115,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function _push_element()
     {
@@ -141,7 +141,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function _pop_element()
     {
@@ -154,7 +154,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_property_attribute_resource($local_name)
     {
@@ -164,7 +164,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_property_attribute_literal($local_name)
     {
@@ -181,7 +181,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_ordinal($local_name)
     {
@@ -197,7 +197,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_property_attribute($local_name)
     {
@@ -225,7 +225,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_property_element($local_name)
     {
@@ -251,7 +251,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_forbidden_rdf_property_element ($local_name)
     {
@@ -272,7 +272,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_rdf_node_element($local_name)
     {
@@ -299,7 +299,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _is_forbidden_rdf_node_element ($local_name)
     {
@@ -320,7 +320,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $val
-     * @access private
+     * @access protected
      */
     function _is_alnum($val)
     {
@@ -330,7 +330,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $val
-     * @access private
+     * @access protected
      */
     function _is_alpha($val)
     {
@@ -340,7 +340,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $uri
-     * @access private
+     * @access protected
      */
     function _is_absolute_uri($uri)
     {
@@ -381,7 +381,7 @@ class RDF_Parser extends RDF_Object
      * @param string &$path
      * @param string &$query
      * @param string &$fragment
-     * @access private
+     * @access protected
      */
     function _parse_uri($uri, $buffer, &$scheme, &$authority, &$path, &$query, &$fragment)
     {
@@ -423,7 +423,7 @@ class RDF_Parser extends RDF_Object
      * @param string $base_uri
      * @param string $reference_uri
      * @param string &$buffer
-     * @access private
+     * @access protected
      */
     function _resolve_uri_reference($base_uri, $reference_uri, &$buffer)
     {
@@ -552,7 +552,7 @@ class RDF_Parser extends RDF_Object
      * the validating by setting the constant VALIDATE_IDS to FALSE (see constants.php).
      *
      * @param string $id
-     * @access private
+     * @access protected
      */
     function is_valid_id($id)
     {
@@ -589,7 +589,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $id
      * @param string &$buffer
-     * @access private
+     * @access protected
      */
     function _resolve_id($id, &$buffer)
     {
@@ -612,7 +612,7 @@ class RDF_Parser extends RDF_Object
      * @param string &$buffer
      * @param string &$namespace_uri
      * @param string &$local_name
-     * @access private
+     * @access protected
      */
     function _split_name($name, &$buffer, &$namespace_uri, &$local_name)
     {
@@ -639,7 +639,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string &$buf
-     * @access private
+     * @access protected
      */
     function _generate_anonymous_uri(&$buf)
     {
@@ -664,7 +664,7 @@ class RDF_Parser extends RDF_Object
      * @param string $bag_id
      * @param string $statements
      * @param string $statement_id
-     * @access private
+     * @access protected
      */
     function _report_statement($subject_type, $subject, $predicate, $ordinal,
         $object_type, $object, $xml_lang, $bag_id, $statements, $statement_id, $datatype)
@@ -809,7 +809,7 @@ class RDF_Parser extends RDF_Object
      * @param string $xml_lang
      * @param string $bag_id
      * @param string $statements
-     * @access private
+     * @access protected
      */
     function _handle_property_attributes($subject_type, $subject, $attributes,
         $xml_lang, $bag_id, $statements)
@@ -946,7 +946,7 @@ class RDF_Parser extends RDF_Object
      * @param string $local_name
      * @param string $attributes
      * @param string $parent
-     * @access private
+     * @access protected
      */
     function _handle_resource_element($namespace_uri, $local_name, $attributes, $parent)
     {
@@ -1142,7 +1142,7 @@ class RDF_Parser extends RDF_Object
      * @param string &$namespace_uri
      * @param string &$local_name
      * @param string &$attributes
-     * @access private
+     * @access protected
      */
     function _handle_property_element(&$namespace_uri, &$local_name, &$attributes)
     {
@@ -1425,7 +1425,7 @@ class RDF_Parser extends RDF_Object
      * @param string &$namespace_uri
      * @param string &$local_name
      * @param string &$attributes
-     * @access private
+     * @access protected
      */
     function _handle_collection_element(&$namespace_uri, &$local_name, &$attributes)
     {
@@ -1485,7 +1485,7 @@ class RDF_Parser extends RDF_Object
      * @param string &$namespace_uri
      * @param string &$local_name
      * @param string &$attributes
-     * @access private
+     * @access protected
      */
     function _handle_xml_start_element(&$namespace_uri, &$local_name, &$attributes)
     {
@@ -1517,7 +1517,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $name
-     * @access private
+     * @access protected
      */
     function _handle_xml_end_element($name)
     {
@@ -1558,7 +1558,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $namespace_uri
      * @param string $local_name
-     * @access private
+     * @access protected
      */
     function _join_name_and_declare_prefix($namespace_uri, $local_name)
     {
@@ -1600,7 +1600,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function _end_collection()
     {
@@ -1654,7 +1654,7 @@ class RDF_Parser extends RDF_Object
      * @param string $parser
      * @param string $name
      * @param string $attributes
-     * @access private
+     * @access protected
      */
     function _start_element_handler($parser, $name, $attributes)
     {
@@ -1756,7 +1756,7 @@ class RDF_Parser extends RDF_Object
      * it is saved in a buffer and reported when the end tag is
      * received.
      *
-     * @access private
+     * @access protected
      */
     function _end_literal_property()
     {
@@ -1803,7 +1803,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $parser
      * @param string $name
-     * @access private
+     * @access protected
      */
     function _end_element_handler($parser, $name)
     {
@@ -1847,7 +1847,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $parser
      * @param string $s
-     * @access private
+     * @access protected
      */
     function _character_data_handler($parser, $s)
     {
@@ -1891,7 +1891,7 @@ class RDF_Parser extends RDF_Object
      * Adds a new statement to the model
      * This method is called by generateModel().
      *
-     * @access private
+     * @access protected
      * @param string &$user_data
      * @param string $subject_type
      * @param string $subject
@@ -2024,7 +2024,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $encoding
-     * @access private
+     * @access protected
      */
     function rdf_parser_create($encoding)
     {
@@ -2056,7 +2056,7 @@ class RDF_Parser extends RDF_Object
      * @param resource &$parser
      * @param string $ns_prefix
      * @param string $ns_uri
-     * @access private
+     * @access protected
      */
     function _start_ns_declaration_handler(&$parser, $ns_prefix, $ns_uri)
     {
@@ -2069,7 +2069,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function rdf_parser_free()
     {
@@ -2085,7 +2085,7 @@ class RDF_Parser extends RDF_Object
      *
      * @param string $s
      * @param string $is_final
-     * @access private
+     * @access protected
      */
     function rdf_parse($s, $is_final)
     {
@@ -2094,7 +2094,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function rdf_get_xml_parser()
     {
@@ -2104,7 +2104,7 @@ class RDF_Parser extends RDF_Object
     /**
      *
      * @param string $base
-     * @access private
+     * @access protected
      */
     function rdf_set_base($base)
     {
@@ -2122,7 +2122,7 @@ class RDF_Parser extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function rdf_get_base()
     {

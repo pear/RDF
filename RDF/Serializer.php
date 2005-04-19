@@ -274,7 +274,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeEntityDeclarations()
     {
@@ -286,7 +286,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeNamespaceDeclarations()
     {
@@ -318,7 +318,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeDescriptions()
     {
@@ -374,7 +374,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeGroup()
     {
@@ -424,7 +424,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param object Node $predicate
-     * @access private
+     * @access protected
      */
     function checkForDoubleAttributes($predicate)
     {
@@ -443,7 +443,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param STRING $uri
-     * @access private
+     * @access protected
      */
     function relativizeURI($uri)
     {
@@ -458,7 +458,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param object Node $subject_node
-     * @access private
+     * @access protected
      */
 
     function writeSubjectURI($subject_node)
@@ -486,7 +486,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeAttributeStatements()
     {
@@ -509,7 +509,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function writeContentStatements()
     {
@@ -557,7 +557,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param Object $object_node
-     * @access private
+     * @access protected
      */
     function writeResourceReference($object_node)
     {
@@ -586,7 +586,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param String $rebaseURI
-     * @access private
+     * @access protected
      */
     function writeAbsoluteResourceReference($rebaseURI)
     {
@@ -605,7 +605,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param STRING $textValue
-     * @access private
+     * @access protected
      */
     function writeTextValue($textValue)
     {
@@ -619,7 +619,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param STRING $textValue
-     * @access private
+     * @access protected
      */
     function writeEscapedCDATA($textValue)
     {
@@ -629,7 +629,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param STRING $textValue
-     * @access private
+     * @access protected
      */
     function getValueQuoteType($textValue)
     {
@@ -664,7 +664,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param object Node $node
-     * @access private
+     * @access protected
      */
     function canAbbreviateValue($node)
     {
@@ -681,7 +681,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param STRING $elementName
-     * @access private
+     * @access protected
      */
     function getElementText($elementName)
     {
@@ -706,7 +706,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param object Model_Memory $model
-     * @access private
+     * @access protected
      */
     function collectNamespaces($model)
     {
@@ -736,7 +736,7 @@ class RDF_Serializer extends RDF_Object
     /**
      *
      * @param object Resource $resource
-     * @access private
+     * @access protected
      */
     function collectNamespace($resource)
     {
@@ -752,7 +752,7 @@ class RDF_Serializer extends RDF_Object
 
     /**
      *
-     * @access private
+     * @access protected
      */
     function getNextNamespacePrefix()
     {

@@ -19,7 +19,7 @@ class RDF_Store_MDB extends RDF_Object
      * Database connection object
      *
      * @var object ADOConnection
-     * @access private
+     * @access protected
      */
     var $dbConn;
 
@@ -204,14 +204,14 @@ class RDF_Store_MDB extends RDF_Object
     }
 
     // =============================================================================
-    // **************************** private methods ********************************
+    // **************************** protected methods ********************************
     // =============================================================================
     /**
      * Create a unique ID for the Model_MDB to be insert into the models table.
      * This method was implemented because some databases do not support auto-increment.
      *
      * @return integer
-     * @access private
+     * @access protected
      */
     function _createUniqueModelID()
     {

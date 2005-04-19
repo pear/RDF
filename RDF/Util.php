@@ -67,7 +67,7 @@ class RDF_Util extends RDF_Object
      * Method looks for # : and /
      *
      * @param String $uri
-     * @access private
+     * @access protected
      */
     function getNamespaceEnd($uri)
     {
@@ -206,7 +206,7 @@ class RDF_Util extends RDF_Object
      *
      * @param object Node   $node
      * @return object Resource
-     * @access private
+     * @access protected
      */
     function chooseColor($node)
     {
@@ -230,7 +230,7 @@ class RDF_Util extends RDF_Object
      *
      * @param object Node   $node
      * @return object Resource
-     * @access private
+     * @access protected
      */
     function getNodeTypeName($node)
     {

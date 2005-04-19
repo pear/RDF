@@ -18,7 +18,7 @@ class RDF_Statement extends RDF_Object
      * Subject of the statement
      *
      * @var object resource
-     * @access private
+     * @access protected
      */
     var $subj;
 
@@ -26,7 +26,7 @@ class RDF_Statement extends RDF_Object
      * Predicate of the statement
      *
      * @var object resource
-     * @access private
+     * @access protected
      */
     var $pred;
 
@@ -34,7 +34,7 @@ class RDF_Statement extends RDF_Object
      * Object of the statement
      *
      * @var object node
-     * @access private
+     * @access protected
      */
     var $obj;
 
@@ -384,7 +384,7 @@ class RDF_Statement extends RDF_Object
  * Comparison function for comparing two statements.
  * RDF_statementsorter() is used by the PHP function usort ( array array, callback cmp_function)
  *
- * @access private
+ * @access protected
  * @param object Statement    $a
  * @param object Statement    $b
  * @return integer less than, equal to, or greater than zero

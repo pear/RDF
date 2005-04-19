@@ -22,7 +22,7 @@ class RDF_Model extends RDF_Object
      * Affects creating of new resources and serialization syntax.
      *
      * @var string
-     * @access private
+     * @access protected
      */
     var $baseURI;
 
@@ -85,7 +85,7 @@ class RDF_Model extends RDF_Object
      * already existing in this model, a new blankNode is generated.
      *
      * @param RDF_Object Statement   $statement
-     * @access private
+     * @access protected
      */ 
     function _addStatementFromAnotherModel($statement, &$blankNodes_tmp)
     {
