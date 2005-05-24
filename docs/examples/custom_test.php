@@ -46,7 +46,7 @@ function echo_string_with_linenumbers ($input_string)
 if (!isset($_POST['submit']) OR (strlen($_POST['RDF']) > 10000)) {
     ?>
 
-<form method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];
+<form method="post" action="<?php echo $_SERVER['SCRIPT_NAME'];
     ?>"> 
 <p>This is an online demo of <a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/index.html">RAP - RDF API for PHP V0.8</a> . You can paste RDF code into the text field below and choose how the data should be processed. It's possible to parse, serialize, reify and query the data.</p>
 <p>The size of your RDF code is limited to 10.000 characters, due to resource restrictions.</p>
@@ -199,7 +199,7 @@ xmlns:s="http://description.org/schema/">
     $parser =& new RDF_Parser();
     $model =& $parser->generateModel($rdfInput);
     // Set the base URI of the model
-    $model->setBaseURI("http://www3.wiwiss.fu-berlin.de" . $HTTP_SERVER_VARS['PHP_SELF'] . "/DemoModel#");
+    $model->setBaseURI("http://www3.wiwiss.fu-berlin.de" . $_SERVER['SCRIPT_NAME'] . "/DemoModel#");
     // Execute query on model if submitted
     if ($_POST['query_subject'] != '' OR $_POST['query_predicate'] != '' OR $_POST['query_object'] != '') {
         $comment_string = "<BR><H3>The following query has been executed:</H3><BR>";
@@ -279,7 +279,7 @@ xmlns:s="http://description.org/schema/">
         echo_string_with_linenumbers($model->toStringIncludingTriples());
     } ;
 
-    ?> <center><a href="<?php echo $HTTP_SERVER_VARS['PHP_SELF'] ?>"><h2>Go back to input form.</h2></a></center><?php
+    ?> <center><a href="<?php echo $_SERVER['SCRIPT_NAME'] ?>"><h2>Go back to input form.</h2></a></center><?php
 } // end of "form submitted"
 
 ?>
