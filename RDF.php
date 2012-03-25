@@ -274,76 +274,8 @@ class RDF
     }
 }
 
-// ----------------------------------------------------------------------------------
-// Class: RDF_Object
-// ----------------------------------------------------------------------------------
-/**
- * An abstract object.
- * Root object with some general methods, that should be overloaded. 
- * 
- * @version V0.7
- * @author Chris Bizer <chris@bizer.de> 
- * @abstract 
- * @package util
- */
-class RDF_Object
-{
-    function factory()
-    {
-        return RDF::raiseError(RDF_ERROR, null, null, 'Not implemented');
-    }
-
-    /**
-     * Serializes a object into a string
-     * 
-     * @access public 
-     * @return string 
-     */
-    function toString()
-    {
-        $objectvars = get_object_vars($this);
-        foreach($objectvars as $key => $value) {
-            $content.= $key . "='" . $value . "'; ";
-        }
-        return 'Instance of ' . get_class($this) . '; Properties: ' . $content;
-    }
-}
-
-/**
- * RDF_Error implements a class for reporting RDF error
- * messages.
- *
- * @package RDF
- * @category RDF
- * @author  Stig Bakken <ssb@fast.no>
- */
-class RDF_Error extends PEAR_Error
-{
-    // }}}
-    // {{{ constructor
-
-    /**
-     * RDF_Error constructor.
-     *
-     * @param mixed   $code      RDF error code, or string with error message.
-     * @param integer $mode      what 'error mode' to operate in
-     * @param integer $level     what error level to use for
-     *                           $mode & PEAR_ERROR_TRIGGER
-     * @param smixed  $debuginfo additional debug info, such as the last query
-     */
-    function RDF_Error($code = RDF_ERROR, $mode = PEAR_ERROR_RETURN,
-              $level = E_USER_NOTICE, $debuginfo = null)
-    {
-        if (is_int($code)) {
-            $this->PEAR_Error('RDF Error: '.RDF::errorMessage($code), $code,
-                $mode, $level, $debuginfo);
-        } else {
-            $this->PEAR_Error("RDF Error: $code", RDF_ERROR, $mode, $level,
-                $debuginfo);
-        }
-    }
-}
-
+require_once 'RDF/Exception.php';
+require_once 'RDF/Object.php';
 require_once 'RDF/Util.php';
 require_once 'RDF/Literal.php';
 require_once 'RDF/Resource.php';
