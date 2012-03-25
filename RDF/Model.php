@@ -67,13 +67,9 @@ class RDF_Model extends RDF_Object
             }
         }
         $temp =& $parser->generateModel($filename);
-        if (PEAR::isError($temp)) {
-            return $temp;
-        }
+
         $result = $this->addModel($temp);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
+
         if ($this->getBaseURI() == null) {
             $this->setBaseURI($temp->getBaseURI());
         }
@@ -96,18 +92,12 @@ class RDF_Model extends RDF_Object
             $label = $subject->getLabel();
             if (!array_key_exists($label, $blankNodes_tmp)) {
                 $res1 = $this->findFirstMatchingStatement($subject, null, null);
-                if (PEAR::isError($res1)) {
-                    return $res1;
-                }
+
                 $res2 = $this->findFirstMatchingStatement(null, null, $subject);
-                if (PEAR::isError($res2)) {
-                    return $res2;
-                }
+
                 if ($res1 || $res2) {
                     $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
-                    if (PEAR::isError($blankNodes_tmp[$label])) {
-                        return $blankNodes_tmp[$label];
-                    }
+
                     $statement->subj = $blankNodes_tmp[$label];
                 } else {
                     $blankNodes_tmp[$label] = $subject;
@@ -121,18 +111,12 @@ class RDF_Model extends RDF_Object
             $label = $object->getLabel();
             if (!array_key_exists($label, $blankNodes_tmp)) {
                 $res1 = $this->findFirstMatchingStatement($object, null, null);
-                if (PEAR::isError($res1)) {
-                    return $res1;
-                }
+
                 $res2 = $this->findFirstMatchingStatement(null, null, $object);
-                if (PEAR::isError($res2)) {
-                    return $res2;
-                }
+
                 if ($res1 || $res2) {
                     $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
-                    if (PEAR::isError($blankNodes_tmp[$label])) {
-                        return $blankNodes_tmp[$label];
-                    }
+
                     $statement->obj = $blankNodes_tmp[$label];
                 } else {
                     $blankNodes_tmp[$label] = $object;
