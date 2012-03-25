@@ -598,9 +598,7 @@ class RDF_Parser extends RDF_Object
         $id_buffer = '';
 
         $result = $this->is_valid_id($id);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
+
         if ($result) {
             $id_buffer = "#$id";
         }
@@ -693,9 +691,6 @@ class RDF_Parser extends RDF_Object
             $xml_lang,
             $datatype
         );
-        if (PEAR::isError($result)) {
-            return $result;
-        }
 
         if ($bag_id) {
             if ($statements == '') {
@@ -1067,9 +1062,6 @@ class RDF_Parser extends RDF_Object
             $this->rdf_parser['top']['subject'] = $id_buffer;
         } else if ($node_id) {
             $result = $this->is_valid_id($node_id);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
             $this->rdf_parser['top']['subject_type'] = RDF_SUBJECT_TYPE_BNODE;
             $this->rdf_parser['top']['subject'] = $node_id;
         }
@@ -1251,9 +1243,6 @@ class RDF_Parser extends RDF_Object
 
         if ($node_id) {
             $result = $this->is_valid_id($node_id);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
 
             if ($resource) {
                 throw new RDF_Exception('nodeID and resource are mutually exclusive', RDF_ERROR);
@@ -1694,17 +1683,11 @@ class RDF_Parser extends RDF_Object
         case RDF_IN_RDF:
             $this->rdf_parser['top']['state'] = RDF_IN_DESCRIPTION;
             $result = $this->_handle_resource_element($namespace_uri, $local_name, $attributes, '');
-            if (PEAR::isError($result)) {
-                return $result;
-            }
             break;
         case RDF_IN_DESCRIPTION:
         case RDF_IN_PROPERTY_PARSE_TYPE_RESOURCE:
             $this->rdf_parser['top']['state'] = RDF_IN_PROPERTY_UNKNOWN_OBJECT;
             $result = $this->_handle_property_element($namespace_uri, $local_name, $attributes);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
             break;
         case RDF_IN_PROPERTY_PARSE_TYPE_COLLECTION:
             $this->_handle_collection_element($namespace_uri, $local_name, $attributes);
@@ -1721,9 +1704,6 @@ class RDF_Parser extends RDF_Object
                 $attributes,
                 $this->rdf_parser['top']['parent']
             );
-            if (PEAR::isError($result)) {
-                return $result;
-            }
             break;
         case RDF_IN_PROPERTY_LITERAL:
             $this->_report_warning('no markup allowed in literals');
@@ -1907,14 +1887,8 @@ class RDF_Parser extends RDF_Object
         } else {
             $objsub =& RDF_Resource::factory($subject);
         }
-        if (PEAR::isError($objsub)) {
-            return $objsub;
-        }
         // create predicate
         $objpred =& RDF_Resource::factory($predicate);
-        if (PEAR::isError($objpred)) {
-            return $objpred;
-        }
         // create object
         if (($object_type == RDF_OBJECT_TYPE_RESOURCE)
             || ($object_type == RDF_OBJECT_TYPE_BNODE)
@@ -1924,14 +1898,8 @@ class RDF_Parser extends RDF_Object
             } else {
                 $objobj =& RDF_Resource::factory($object);
             }
-            if (PEAR::isError($objobj)) {
-                return $objobj;
-            }
         } else {
             $objobj =& RDF_Literal::factory($object);
-            if (PEAR::isError($objobj)) {
-                return $objobj;
-            }
             if ($datatype != '') {
                 $objobj->setDatatype($datatype);
             } elseif ($xml_lang != "") {
@@ -1940,9 +1908,6 @@ class RDF_Parser extends RDF_Object
         }
         // create statement
         $statement =& RDF_Statement::factory($objsub, $objpred, $objobj);
-        if (PEAR::isError($statement)) {
-            return $statement;
-        }
         // add statement to model
         return $this->model->add($statement);
     }
