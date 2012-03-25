@@ -12,7 +12,7 @@ class RDF_Object
 {
     function factory()
     {
-        return RDF::raiseError(RDF_ERROR, null, null, 'Not implemented');
+        throw new RDF_Exception('Not implemented', RDF_ERROR);
     }
 
     /**
