@@ -98,7 +98,7 @@ class RDF_Resource extends RDF_Node
      * @access public
      * @return string
      */
-    function toString()
+    function __toString()
     {
         return 'Resource("' . $this->uri . '")';
     }

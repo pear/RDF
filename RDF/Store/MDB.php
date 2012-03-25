@@ -12,8 +12,9 @@
  * @package model
  * @access public
  */
+require_once 'PEAR.php';
 
-class RDF_Store_MDB extends RDF_Object
+class RDF_Store_MDB
 {
     /**
      * Database connection object

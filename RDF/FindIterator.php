@@ -17,7 +17,7 @@
  * @access  public
  *
  */
-class RDF_FindIterator extends RDF_Object
+class RDF_FindIterator
 {
      /**
     * Reference to the Model_Memory

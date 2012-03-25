@@ -12,7 +12,7 @@
  * @version V0.7
  * @package model
  */
-class RDF_Statement extends RDF_Object
+class RDF_Statement
 {
     /**
      * Subject of the statement
@@ -151,9 +151,9 @@ class RDF_Statement extends RDF_Object
      * @return string
      */
 
-    function toString()
+    function __toString()
     {
-        return 'Triple(' . $this->subj->toString() . ', ' . $this->pred->toString() . ', ' . $this->obj->toString() . ')';
+        return 'Triple(' . (string)$this->subj . ', ' . (string)$this->pred . ', ' . (string)$this->obj . ')';
     }
 
     /**
@@ -164,7 +164,7 @@ class RDF_Statement extends RDF_Object
      */
     function toStringSubject()
     {
-        return $this->subj->toString();
+        return (string)$this->subj;
     }
 
     /**
@@ -175,7 +175,7 @@ class RDF_Statement extends RDF_Object
      */
     function toStringPredicate()
     {
-        return $this->pred->toString();
+        return (string)$this->pred;
     }
 
     /**
@@ -186,7 +186,7 @@ class RDF_Statement extends RDF_Object
      */
     function toStringObject()
     {
-        return $this->obj->toString();
+        return (string)$this->obj;
     }
 
     /**
@@ -347,6 +347,6 @@ function RDF_statementsorter($a, $b)
     $x = $a->getObject();
     $y = $b->getObject();
 
-    return strcmp($x->toString(), $y->toString());
+    return strcmp((string)$x, (string)$y);
 }
 ?>

@@ -11,7 +11,7 @@
  * @package util
  * @access public
  */
-class RDF_Util extends RDF_Object
+class RDF_Util
 {
     /**
      * Extracts the namespace prefix out of a URI.

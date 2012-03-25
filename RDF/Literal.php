@@ -159,7 +159,7 @@ class RDF_Literal extends RDF_Node
      * @access public
      * @return string
      */
-    function toString()
+    function __toString()
     {
         $dump = 'Literal("' . $this->label . '"';
         if ($this->lang != null) {

@@ -154,7 +154,7 @@ class RDF_Model_Memory extends RDF_Model
      * @access public
      * @return string
      */
-    function toString()
+    function __toString()
     {
         return 'Model_Memory[baseURI=' . $this->getBaseURI() . ';  size=' . $this->size() . ']';
     }
@@ -167,9 +167,9 @@ class RDF_Model_Memory extends RDF_Model
      */
     function toStringIncludingTriples()
     {
-        $dump = $this->toString() . chr(13);
+        $dump = $this->__toString() . chr(13);
         foreach($this->triples as $value) {
-            $dump .= $value->toString() . chr(13);
+            $dump .= $value->__toString() . chr(13);
         }
         return $dump;
     }

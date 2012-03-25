@@ -15,7 +15,7 @@
  * @access public
  */
 
-class RDF_Model extends RDF_Object
+class RDF_Model
 {
     /**
      * Base URI of the Model.
@@ -80,7 +80,7 @@ class RDF_Model extends RDF_Object
      * If the statement to be added contains a blankNode with an identifier 
      * already existing in this model, a new blankNode is generated.
      *
-     * @param RDF_Object Statement   $statement
+     * @param RDF_Node Statement   $statement
      * @access protected
      */ 
     function _addStatementFromAnotherModel($statement, &$blankNodes_tmp)

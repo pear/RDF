@@ -14,7 +14,7 @@
  */
 require_once 'RDF/Model.php';
 require_once 'RDF/Exception.php';
-
+require_once 'PEAR.php';
 class RDF_Model_MDB extends RDF_Model
 {
     /**
@@ -166,7 +166,7 @@ class RDF_Model_MDB extends RDF_Model
      * @return string
      * @access public
      */
-    function toString()
+    function __toString()
     {
         return 'Model_MDB[modelURI=' . $this->modelURI . '; baseURI=' .
             $this->getBaseURI() . ';  size=' . $this->size() . ']';

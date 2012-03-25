@@ -14,7 +14,7 @@
  * @package model
  * @abstract
  */
-class RDF_Node extends RDF_Object
+abstract class RDF_Node 
 {
 
 } // end:RDFNode

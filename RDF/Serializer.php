@@ -18,7 +18,7 @@ require_once 'RDF/Exception.php';
  * @package syntax
  * @access public
  */
-class RDF_Serializer extends RDF_Object
+class RDF_Serializer
 {
     // configuration
     var $use_entities;

@@ -1,10 +1,4 @@
 <?php 
-
-/**
- * Include PEAR base class
- */
-require_once 'PEAR.php';
-
 // ----------------------------------------------------------------------------------
 // Constants
 // ----------------------------------------------------------------------------------
@@ -197,7 +191,6 @@ class RDF
 }
 
 require_once 'RDF/Exception.php';
-require_once 'RDF/Object.php';
 require_once 'RDF/Util.php';
 require_once 'RDF/Literal.php';
 require_once 'RDF/Resource.php';

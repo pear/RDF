@@ -49,7 +49,7 @@ $description =& RDF_Resource::factory("http://description.org/schema/Description
 $statement = $model->findFirstMatchingStatement($homepage, $description, null);
 // Check if something was found and output result
 if ($statement) {
-    echo $statement->toString();
+    echo $statement;
 } else {
     echo "Sorry, I didn't find anything.";
 } 

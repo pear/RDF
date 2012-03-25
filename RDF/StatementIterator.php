@@ -12,7 +12,7 @@
  * @package util
  * @access public
  */
-class RDF_StatementIterator extends RDF_Object
+class RDF_StatementIterator
 {
     /**
      * Reference to the Model_Memory

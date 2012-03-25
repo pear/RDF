@@ -21,7 +21,7 @@
  * @access public
  */
 
-class RDF_Parser extends RDF_Object
+class RDF_Parser
 {
     var $rdf_parser;
     var $model;

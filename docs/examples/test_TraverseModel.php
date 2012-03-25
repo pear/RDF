@@ -29,15 +29,15 @@ while ($it->hasNext()) {
 $it->moveLast();
 $statement = $it->current();
 // Traverse model backward and print statements
-echo $statement->toString() . "<BR>";
+echo $statement . "<BR>";
 while ($it->hasPrevious()) {
     $statement = $it->previous();
-    echo $statement->toString() . "<BR>";
+    echo $statement . "<BR>";
 } 
 // Jump to statement 2 and print it
 $it->moveTo(2);
 $statement = $it->current();
-echo $statement->toString() . "<BR>";
+echo $statement . "<BR>";
 ?>
 </body>
 </html>

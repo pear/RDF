@@ -75,7 +75,7 @@ class RDF_BlankNode extends RDF_Resource
      * @access public
      * @return string
      */
-    function toString()
+    function __toString()
     {
         return 'bNode("' . $this->uri . '")';
     }
