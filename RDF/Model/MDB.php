@@ -138,7 +138,7 @@ class RDF_Model_MDB extends RDF_Model
 
             $result = $this->dbConn->query($sql);
             if (PEAR::isError($result)) {
-                return $result;
+                throw new RDF_Exception($result->getMessage());
             }
         }
     }
@@ -265,7 +265,7 @@ class RDF_Model_MDB extends RDF_Model
         $result = $this->dbConn->queryOne($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         }
 
         return (bool)$result;
@@ -359,7 +359,7 @@ class RDF_Model_MDB extends RDF_Model
         $result = $this->dbConn->query($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         // write the recordSet into memory Model
         }
         return $this->_convertRecordSetToMemModel($result);
@@ -414,7 +414,7 @@ class RDF_Model_MDB extends RDF_Model
         $result = $this->dbConn->query($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         // write the recordSet into memory Model
         }
         return $this->_convertRecordSetToMemModel($result);
@@ -446,7 +446,7 @@ class RDF_Model_MDB extends RDF_Model
         $result = $this->dbConn->query($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         }
         if (!$this->dbConn->numRows($result)) {
             return null;
@@ -559,9 +559,7 @@ class RDF_Model_MDB extends RDF_Model
         }
 
         $result = $this->containsAll($that);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
+
         if (!$result) {
             return false;
         }
@@ -673,10 +671,8 @@ class RDF_Model_MDB extends RDF_Model
             $this->dbConn->autoCommit(false);
             foreach ($model->triples as $statement) {
                 $result = $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
-                if (PEAR::isError($result)) {
-                    return $result;
-                }
-            }
+
+           }
             $this->dbConn->commit();
             $this->dbConn->autoCommit(true);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
@@ -684,9 +680,7 @@ class RDF_Model_MDB extends RDF_Model
             $Model_Memory =& $model->getMemModel();
             foreach($Model_Memory->triples as $statement) {
                 $result = $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
-                if (PEAR::isError($result)) {
-                    return $result;
-                }
+
             }
             $this->dbConn->commit();
             $this->dbConn->autoCommit(true);
@@ -729,7 +723,7 @@ class RDF_Model_MDB extends RDF_Model
         $result = $this->dbConn->commit();
         $this->dbConn->autoCommit(true);
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         }
         return $this->close();
     }
@@ -760,17 +754,11 @@ class RDF_Model_MDB extends RDF_Model
         while (true) {
             $uri = $this->getBaseURI() . $prefix . $counter;
             $tempbNode =& RDF_BlankNode::factory($uri);
-            if (PEAR::isError($tempbNode)) {
-                return $tempbNode;
-            }
+
             $res1 = $this->find($tempbNode, null, null);
-            if (PEAR::isError($res1)) {
-                return $res1;
-            }
+
             $res2 = $this->find(null, null, $tempbNode);
-            if (PEAR::isError($res2)) {
-                return $res2;
-            }
+
             if ($res1->size() == 0 && $res2->size() == 0) {
                 return $uri;
             }
@@ -839,42 +827,26 @@ class RDF_Model_MDB extends RDF_Model
             } else {
                 $sub =& RDF_BlankNode::factory($row[0]);
             }
-            if (PEAR::isError($sub)) {
-                return $sub;
-            }
+
             // predicate
             $pred =& RDF_Resource::factory($row[1]);
-            if (PEAR::isError($pred)) {
-                return $pred;
-            }
+
             // object
             if ($row[6] == 'r') {
                 $obj =& RDF_Resource::factory($row[2]);
-                if (PEAR::isError($obj)) {
-                    return $obj;
-                }
+
             } elseif ($row[6] == 'b') {
                 $obj =& RDF_BlankNode::factory($row[2]);
-                if (PEAR::isError($obj)) {
-                    return $obj;
-                }
             } else {
                 $obj =& RDF_Literal::factory($row[2], $row[3]);
-                if (PEAR::isError($obj)) {
-                    return $obj;
-                }
+
                 if ($row[4]) {
                     $obj->setDatatype($row[4]);
                 }
             }
             $statement =& RDF_Statement::factory($sub, $pred, $obj);
-            if (PEAR::isError($statement)) {
-                return $statement;
-            }
+
             $result = $res->add($statement);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
         }
         $this->dbConn->freeResult($result);
         return $res;
@@ -963,7 +935,7 @@ class RDF_Model_MDB extends RDF_Model
         $result =& $this->dbConn->queryOne($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($result->getMessage());
         }
         return (bool)$result;
     }
