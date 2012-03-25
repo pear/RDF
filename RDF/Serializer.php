@@ -336,14 +336,10 @@ class RDF_Serializer extends RDF_Object
             $object = $statement->getobject();
             // write Group and update current subject if nessesary
             $result = $this->m_currentSubject;
-            if (PEAR::isError($result)) {
-                return $result;
-            }
+
             if ($this->m_currentSubject) {
                 $result = $this->m_currentSubject->equals($subject);
-                if (PEAR::isError($result)) {
-                    return $result;
-                }
+
             }
             if (!$result) {
                 $this->writeGroup();
@@ -391,9 +387,7 @@ class RDF_Serializer extends RDF_Object
         }
         if ($this->m_groupTypeStatement != null) {
             $outerElementName = $this->getElementText($this->m_groupTypeStatement->obj->getURI());
-            if (PEAR::isError($outerElementName)) {
-                return $outerElementName;
-            }
+
         } else {
             $outerElementName = $this->rdf_qname_prefix . RDF_DESCRIPTION;
         }
@@ -433,9 +427,7 @@ class RDF_Serializer extends RDF_Object
     {
         foreach($this->m_attributeStatements as $key => $statement) {
             $result = $statement->pred->equals($predicate);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
+
             if ($result) {
                 return false;
             }
@@ -497,9 +489,7 @@ class RDF_Serializer extends RDF_Object
             $this->m_out .= RDF_LINEFEED;
             $this->m_out .= RDF_INDENTATION;
             $result = $this->getElementText($statement->pred->getURI());
-            if (PEAR::isError($result)) {
-                return $result;
-            }
+
             $this->m_out .= $result;
             $this->m_out .= '=';
             $value = $statement->obj->getLabel();
@@ -520,9 +510,7 @@ class RDF_Serializer extends RDF_Object
             $this->m_out .= RDF_INDENTATION;
             $this->m_out .= '<';
             $predicateElementText = $this->getElementText($statement->pred->getURI());
-            if (PEAR::isError($predicateElementText)) {
-                return $predicateElementText;
-            }
+
             $this->m_out .= $predicateElementText;
 
             if (is_a($statement->obj, 'RDF_Resource')) {
