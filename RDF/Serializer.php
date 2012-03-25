@@ -2,6 +2,9 @@
 // ----------------------------------------------------------------------------------
 // Class: RDF_Serializer
 // ----------------------------------------------------------------------------------
+
+require_once 'RDF/Exception.php';
+
 /**
  * An RDF seralizer.
  * Seralizes models to RDF syntax. It supports the xml:base, xml:lang, rdf:datatype and
@@ -694,7 +697,7 @@ class RDF_Serializer extends RDF_Object
 
         if ($prefix === false) {
             $errmsg = "Prefix for element '$elementName' cannot be found.";
-            return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+            throw new RDF_Exception($errmsg, RDF_ERROR);
         }
         if ($prefix != RDF_NAMESPACE_PREFIX) {
             return $prefix . ':' . $localName;
