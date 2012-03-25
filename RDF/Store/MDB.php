@@ -50,7 +50,7 @@ class RDF_Store_MDB extends RDF_Object
         $manager =& new MDB_Manager;
         $err = $manager->connect($this->dbConn);
         if(PEAR::isError($err)) {
-            return $err;
+            throw new RDF_Exception($err->getMessage());
         }
         $err = $manager->updateDatabase(
             $filename,
@@ -58,7 +58,7 @@ class RDF_Store_MDB extends RDF_Object
             array('database' => $this->dbConn->database_name)
         );
         if(PEAR::isError($err)) {
-            return $err;
+            throw new RDF_Exception($err->getMessage());
         }
         $dsn = $this->dbConn->getDSN();
         // cant we remove this ugly hack?
@@ -100,7 +100,7 @@ class RDF_Store_MDB extends RDF_Object
         $result = $this->dbConn->queryOne($sql);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($err->getMessage());
         }
 
         return (bool)$result;
@@ -159,7 +159,7 @@ class RDF_Store_MDB extends RDF_Object
         $this->dbConn->autoCommit(true);
 
         if (PEAR::isError($result)) {
-            return $result;
+            throw new RDF_Exception($err->getMessage());
         }
 
         return new RDF_Model_MDB($this->dbConn, $modelURI, $modelID, $baseURI);
