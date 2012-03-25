@@ -47,15 +47,15 @@ class RDF_Model_MDB extends RDF_Model
      * Do not call this directly.
      * Use the method getModel,getNewModel or putModel of the Class Store_MDB instead.
      *
-     * @param  object MDB driver instance &$dbConnection
+     * @param  object MDB driver instance $dbConnection
      * @param  string $modelURI
      * @param  string $modelID
      * @param  string $baseURI
      * @access public
      */
-    function RDF_Model_MDB(&$dbConnection, $modelURI, $modelID, $baseURI = null)
+    function RDF_Model_MDB($dbConnection, $modelURI, $modelID, $baseURI = null)
     {
-        $this->dbConn =& $dbConnection;
+        $this->dbConn = $dbConnection;
         $this->modelURI = $modelURI;
         $this->modelID = $modelID;
         $this->baseURI = $this->_checkBaseURI($baseURI);
@@ -110,7 +110,7 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Add a new triple to this Model_MDB.
      *
-     * @param object RDF_Statement    &$statement
+     * @param object RDF_Statement    $statement
      * @access public
      */
     function add(RDF_Statement $statement)
@@ -146,7 +146,7 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Remove the given triple from this Model_MDB.
      *
-     * @param object Statement    &$statement
+     * @param object Statement    $statement
      * @throws PhpError
      * @throws SqlError
      * @access public
@@ -180,7 +180,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function toStringIncludingTriples()
     {
-        $Model_Memory =& $this->getMemModel();
+        $Model_Memory = $this->getMemModel();
         return $Model_Memory->toStringIncludingTriples();
     }
 
@@ -190,7 +190,7 @@ class RDF_Model_MDB extends RDF_Model
      * @return object Model_Memory
      * @access public
      */
-    function &getMemModel()
+    function getMemModel()
     {
         $result = $this->_getRecordSet($this);
         return $this->_convertRecordSetToMemModel($result);
@@ -203,7 +203,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeAsHtml()
     {
-        $Model_Memory =& $this->getMemModel();
+        $Model_Memory = $this->getMemModel();
         $Model_Memory->writeAsHtml();
     }
 
@@ -214,7 +214,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeAsHtmlTable()
     {
-        $Model_Memory =& $this->getMemModel();
+        $Model_Memory = $this->getMemModel();
         RDF_Util::writeHTMLTable($Model_Memory);
     }
 
@@ -226,7 +226,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function writeRDFToString()
     {
-        $Model_Memory =& $this->getMemModel();
+        $Model_Memory = $this->getMemModel();
         return $Model_Memory->writeRDFToString();
     }
 
@@ -252,11 +252,11 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Check if the Model_MDB contains the given statement
      *
-     * @param object Statement  &$statement
+     * @param object Statement  $statement
      * @return boolean
      * @access public
      */
-    function contains(&$statement)
+    function contains($statement)
     {
         $sql = 'SELECT modelID FROM statements
             WHERE modelID = ' . $this->dbConn->getValue('integer', $this->modelID);
@@ -274,7 +274,7 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Determine if all of the statements in the given model are also contained in this Model_MDB.
      *
-     * @param object Model    &$model
+     * @param object Model    $model
      * @return boolean
      * @access public
      */
@@ -305,7 +305,7 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Determine if any of the statements in the given model are also contained in this Model_MDB.
      *
-     * @param object Model    &$model
+     * @param object Model    $model
      * @return boolean
      * @access public
      */
@@ -319,7 +319,7 @@ class RDF_Model_MDB extends RDF_Model
             }
             return false;
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $result =& $this->_getRecordSet($model);
+            $result = $this->_getRecordSet($model);
             $all = $this->dbConn->fetchAll($result);
             reset($all);
             while (is_array($row = next($all))) {
@@ -387,7 +387,7 @@ class RDF_Model_MDB extends RDF_Model
      */
     function findRegex($subject_regex, $predicate_regex, $object_regex)
     {
-        $mm =& $this->getMemModel();
+        $mm = $this->getMemModel();
 
         return $mm->findRegex($subject_regex, $predicate_regex, $object_regex);
     }
@@ -546,7 +546,7 @@ class RDF_Model_MDB extends RDF_Model
      * Warning: This method doesn't work correct with models where the same blank node has different
      * identifiers in the two models. We will correct this in a future version.
      *
-     * @param object model &$that
+     * @param object model $that
      * @return boolean
      * @throws PhpError
      * @access public
@@ -591,15 +591,15 @@ class RDF_Model_MDB extends RDF_Model
      * @throws PhpError
      * @access public
      */
-    function &unite(RDF_Model $model)
+    function unite(RDF_Model $model)
     {
 
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel =& $this->getMemModel();
+            $thisModel = $this->getMemModel();
             return $thisModel->unite($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel =& $this->getMemModel();
-            $thatModel =& $model->getMemModel();
+            $thisModel = $this->getMemModel();
+            $thatModel = $model->getMemModel();
             return $thisModel->unite($thatModel);
         }
 
@@ -615,14 +615,14 @@ class RDF_Model_MDB extends RDF_Model
      * @access public
      */
 
-    function &subtract(RDF_Model $model)
+    function subtract(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel =& $this->getMemModel();
+            $thisModel = $this->getMemModel();
             return $thisModel->subtract($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel =& $this->getMemModel();
-            $thatModel =& $model->getMemModel();
+            $thisModel = $this->getMemModel();
+            $thatModel = $model->getMemModel();
             return $thisModel->subtract($thatModel);
         }
 
@@ -638,14 +638,14 @@ class RDF_Model_MDB extends RDF_Model
      * @throws PhpError
      * @access public
      */
-    function &intersect(RDF_Model $model)
+    function intersect(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
-            $thisModel =& $this->getMemModel();
+            $thisModel = $this->getMemModel();
             return $thisModel->intersect($model);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $thisModel =& $this->getMemModel();
-            $thatModel =& $model->getMemModel();
+            $thisModel = $this->getMemModel();
+            $thatModel = $model->getMemModel();
             return $thisModel->intersect($thatModel);
         }
 
@@ -677,7 +677,7 @@ class RDF_Model_MDB extends RDF_Model
             $this->dbConn->autoCommit(true);
         } elseif (is_a($model, 'RDF_Model_MDB')) {
             $this->dbConn->autoCommit(false);
-            $Model_Memory =& $model->getMemModel();
+            $Model_Memory = $model->getMemModel();
             foreach($Model_Memory->triples as $statement) {
                 $result = $this->_addStatementFromAnotherModel($statement, $blankNodes_tmp);
 
@@ -696,9 +696,9 @@ class RDF_Model_MDB extends RDF_Model
      * @return object Model_Memory
      * @access public
      */
-    function &reify()
+    function reify()
     {
-        $Model_Memory =& $this->getMemModel();
+        $Model_Memory = $this->getMemModel();
         return $Model_Memory->reify();
     }
 
@@ -753,7 +753,7 @@ class RDF_Model_MDB extends RDF_Model
         $counter = 1;
         while (true) {
             $uri = $this->getBaseURI() . $prefix . $counter;
-            $tempbNode =& RDF_BlankNode::factory($uri);
+            $tempbNode = RDF_BlankNode::factory($uri);
 
             $res1 = $this->find($tempbNode, null, null);
 
@@ -817,34 +817,34 @@ class RDF_Model_MDB extends RDF_Model
      */
     function _convertRecordSetToMemModel($result)
     {
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
         $all = $this->dbConn->fetchAll($result);
         reset($all);
         while (is_array($row = next($all))) {
             // subject
             if ($row[5] == 'r') {
-                $sub =& RDF_Resource::factory($row[0]);
+                $sub = RDF_Resource::factory($row[0]);
             } else {
-                $sub =& RDF_BlankNode::factory($row[0]);
+                $sub = RDF_BlankNode::factory($row[0]);
             }
 
             // predicate
-            $pred =& RDF_Resource::factory($row[1]);
+            $pred = RDF_Resource::factory($row[1]);
 
             // object
             if ($row[6] == 'r') {
-                $obj =& RDF_Resource::factory($row[2]);
+                $obj = RDF_Resource::factory($row[2]);
 
             } elseif ($row[6] == 'b') {
-                $obj =& RDF_BlankNode::factory($row[2]);
+                $obj = RDF_BlankNode::factory($row[2]);
             } else {
-                $obj =& RDF_Literal::factory($row[2], $row[3]);
+                $obj = RDF_Literal::factory($row[2], $row[3]);
 
                 if ($row[4]) {
                     $obj->setDatatype($row[4]);
                 }
             }
-            $statement =& RDF_Statement::factory($sub, $pred, $obj);
+            $statement = RDF_Statement::factory($sub, $pred, $obj);
 
             $result = $res->add($statement);
         }
@@ -901,7 +901,7 @@ class RDF_Model_MDB extends RDF_Model
      * @return resource MDB result
      * @access protected
      */
-    function _getRecordSet(&$model)
+    function _getRecordSet($model)
     {
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
             FROM statements
@@ -932,7 +932,7 @@ class RDF_Model_MDB extends RDF_Model
                 AND subject_is=' . $this->dbConn->getValue('text', $row[5]) . '
                 AND object_is=' . $this->dbConn->getValue('text', $row[6]);
 
-        $result =& $this->dbConn->queryOne($sql);
+        $result = $this->dbConn->queryOne($sql);
 
         if (PEAR::isError($result)) {
             throw new RDF_Exception($result->getMessage());

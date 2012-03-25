@@ -154,7 +154,7 @@ class RDF_Serializer
      * @return string
      * @access public
      */
-    function &serialize(&$model, $xml_default_namespace = null,
+    function serialize(RDF_Model $model, $xml_default_namespace = null,
         $encoding = RDF_DEFAULT_ENCODING)
     {
         if ($xml_default_namespace) {
@@ -260,7 +260,7 @@ class RDF_Serializer
      * @return boolean
      * @access public
      */
-    function saveAs(&$model, $filename, $encoding = RDF_DEFAULT_ENCODING)
+    function saveAs(RDF_Model $model, $filename, $encoding = RDF_DEFAULT_ENCODING)
     {
         // serialize model
         $RDF = $this->serialize($model, null, $encoding);

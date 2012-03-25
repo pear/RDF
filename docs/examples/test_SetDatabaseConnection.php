@@ -30,7 +30,7 @@ require_once 'RDF/Store/MDB.php';
 // ----------------------------------------------------------------------------------
 
 // Connect to MySQL database with user defined connection settings
-$rdf_database =& new RDF_Store_MDB(
+$rdf_database = new RDF_Store_MDB(
     array(
         'phptype' => 'mysql',
         'username' => 'root',

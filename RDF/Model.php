@@ -50,9 +50,9 @@ class RDF_Model
     function load($filename, $type = null)
     {
         if ((isset($type)) && ($type =='n3') || ($type =='nt')) {
-            $parser =& new RDF_N3_Parser();
+            $parser = new RDF_N3_Parser();
         } elseif ((isset($type)) && ($type =='rdf')) {
-            $parser =& new RDF_Parser();
+            $parser = new RDF_Parser();
         } else {
             // create a parser according to the suffix of the filename
             // if there is no suffix assume the file to be XML/RDF
@@ -61,12 +61,12 @@ class RDF_Model
             if (isset($suffix[1])
                 && (strtolower($suffix[1]) == 'n3') || (strtolower($suffix[1]) == 'nt')
             ) {
-                $parser =& new RDF_N3_Parser();
+                $parser = new RDF_N3_Parser();
             } else {
-                $parser =& new RDF_Parser();
+                $parser = new RDF_Parser();
             }
         }
-        $temp =& $parser->generateModel($filename);
+        $temp = $parser->generateModel($filename);
 
         $result = $this->addModel($temp);
 
@@ -96,7 +96,7 @@ class RDF_Model
                 $res2 = $this->findFirstMatchingStatement(null, null, $subject);
 
                 if ($res1 || $res2) {
-                    $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
+                    $blankNodes_tmp[$label] = RDF_BlankNode::factory($this);
 
                     $statement->subj = $blankNodes_tmp[$label];
                 } else {
@@ -115,7 +115,7 @@ class RDF_Model
                 $res2 = $this->findFirstMatchingStatement(null, null, $object);
 
                 if ($res1 || $res2) {
-                    $blankNodes_tmp[$label] =& RDF_BlankNode::factory($this);
+                    $blankNodes_tmp[$label] = RDF_BlankNode::factory($this);
 
                     $statement->obj = $blankNodes_tmp[$label];
                 } else {

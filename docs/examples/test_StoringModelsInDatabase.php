@@ -28,7 +28,7 @@ require_once 'RDF/Model/Memory.php';
 // # ------------------------------------------
 // Connect to MsAccess (rdf_db DSN) database using connection settings
 // defined in constants.php :
-$rdf_database =& new RDF_Store_MDB(
+$rdf_database = new RDF_Store_MDB(
     array(
         'phptype' => 'mysql',
         'username' => 'metapear',
@@ -42,7 +42,7 @@ $rdf_database =& new RDF_Store_MDB(
 // Filename of an RDF document
 $base = "Example1.rdf";
 // Create a new memory model
-$Model_Memory =& new RDF_Model_Memory();
+$Model_Memory = new RDF_Model_Memory();
 // Load and parse document
 $Model_Memory->load($base);
 // Now store the model in database

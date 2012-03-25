@@ -35,7 +35,7 @@ class RDF_Store_MDB
     {
         require_once 'MDB.php';
         // create a new connection object
-        $this->dbConn =& MDB::connect($dsn, $options);
+        $this->dbConn = MDB::connect($dsn, $options);
     }
 
     /**
@@ -48,7 +48,7 @@ class RDF_Store_MDB
     function createTables($filename)
     {
         MDB::loadFile('Manager');
-        $manager =& new MDB_Manager;
+        $manager = new MDB_Manager;
         $err = $manager->connect($this->dbConn);
         if(PEAR::isError($err)) {
             throw new RDF_Exception($err->getMessage());
@@ -155,7 +155,7 @@ class RDF_Store_MDB
             $this->dbConn->getValue('text', $modelID) .',' .
             $this->dbConn->getValue('text', $modelURI) .',' .
             $this->dbConn->getValue('text', $baseURI) .')';
-        $result =& $this->dbConn->query($sql);
+        $result = $this->dbConn->query($sql);
 
         $this->dbConn->autoCommit(true);
 
@@ -171,12 +171,12 @@ class RDF_Store_MDB
      * Return FALSE if there is already a model with modelURI matching the modelURI
      * of the given model.
      *
-     * @param object Model  &$model
+     * @param object Model  $model
      * @param string $modelURI
      * @return boolean
      * @access public
      */
-    function putModel(&$model, $modelURI = null)
+    function putModel(RDF_Model $model, $modelURI = null)
     {
         if (!$modelURI) {
             if (is_a($model, 'RDF_Model_Memory')) {

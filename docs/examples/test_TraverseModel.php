@@ -12,7 +12,7 @@ require_once 'RDF/Model/Memory.php';
 // Filename of an RDF document
 $base = "example1.rdf";
 // Create a new Model_Memory
-$model =& new RDF_Model_Memory();
+$model = new RDF_Model_Memory();
 // Load and parse document
 $model->load($base);
 // Get Iterator from model

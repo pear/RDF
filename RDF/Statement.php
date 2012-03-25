@@ -48,7 +48,7 @@ class RDF_Statement
      */
     function factory($subj, $pred, $obj)
     {
-        $statement =& new RDF_Statement;
+        $statement = new RDF_Statement;
 
         $statement->setSubject($subj);
         $statement->setPredicate($pred);
@@ -265,11 +265,11 @@ class RDF_Statement
      * Can be used for writing sorting function for models or with the PHP function usort().
      *
      * @access public
-     * @param object statement &$compare_with
+     * @param object statement $compare_with
      * @return boolean
      */
 
-    function compare(&$compare_with)
+    function compare($compare_with)
     {
         return RDF_statementsorter($this, $compare_with);
         // statementsorter function see below
@@ -284,31 +284,31 @@ class RDF_Statement
      * @param mixed &$model_or_bNodeID
      * @return object model
      */
-    function &reify(&$model_or_bNodeID)
+    function reify(&$model_or_bNodeID)
     {
         if (is_a($model_or_bNodeID, 'RDF_Model_Memory')) {
             // parameter is model
-            $statementModel =& new RDF_Model_Memory($model_or_bNodeID->getBaseURI());
-            $thisStatement =& RDF_BlankNode::factory($model_or_bNodeID);
+            $statementModel = new RDF_Model_Memory($model_or_bNodeID->getBaseURI());
+            $thisStatement = RDF_BlankNode::factory($model_or_bNodeID);
         } else {
             // parameter is bNodeID
-            $statementModel =& new RDF_Model_Memory();
-            $thisStatement =& RDF_BlankNode::factory($model_or_bNodeID);
+            $statementModel = new RDF_Model_Memory();
+            $thisStatement = RDF_BlankNode::factory($model_or_bNodeID);
         }
 
-        $RDFstatement =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_STATEMENT);
-        $RDFtype =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_TYPE);
-        $RDFsubject =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_SUBJECT);
-        $RDFpredicate =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_PREDICATE);
-        $RDFobject =& RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_OBJECT);
+        $RDFstatement = RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_STATEMENT);
+        $RDFtype = RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_TYPE);
+        $RDFsubject = RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_SUBJECT);
+        $RDFpredicate = RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_PREDICATE);
+        $RDFobject = RDF_Resource::factory(RDF_NAMESPACE_URI . RDF_OBJECT);
 
-        $statement =& RDF_Statement::factory($thisStatement, $RDFtype, $RDFstatement);
+        $statement = RDF_Statement::factory($thisStatement, $RDFtype, $RDFstatement);
         $result = $statementModel->add($statement);
-        $statement =& RDF_Statement::factory($thisStatement, $RDFsubject, $this->getSubject());
+        $statement = RDF_Statement::factory($thisStatement, $RDFsubject, $this->getSubject());
         $result = $statementModel->add($statement);
-        $statement =& RDF_Statement::factory($thisStatement, $RDFpredicate, $this->getPredicate());
+        $statement = RDF_Statement::factory($thisStatement, $RDFpredicate, $this->getPredicate());
         $result = $statementModel->add($statement);
-        $statement =& RDF_Statement::factory($thisStatement, $RDFobject, $this->getObject());
+        $statement = RDF_Statement::factory($thisStatement, $RDFobject, $this->getObject());
         $result = $statementModel->add($statement);
 
         return $statementModel;

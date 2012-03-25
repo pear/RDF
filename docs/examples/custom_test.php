@@ -194,10 +194,10 @@ xmlns:s="http://description.org/schema/">
     echo "<BR><H3>Your original RDF input:</h3><BR>";
     echo_string_with_linenumbers($rdfInput);
     // Create a new Model_Memory
-    $model =& new RDF_Model_Memory();
+    $model = new RDF_Model_Memory();
     // Load and parse document
-    $parser =& new RDF_Parser();
-    $model =& $parser->generateModel($rdfInput);
+    $parser = new RDF_Parser();
+    $model = $parser->generateModel($rdfInput);
     // Set the base URI of the model
     $model->setBaseURI("http://www3.wiwiss.fu-berlin.de" . $_SERVER['SCRIPT_NAME'] . "/DemoModel#");
     // Execute query on model if submitted
@@ -210,28 +210,28 @@ xmlns:s="http://description.org/schema/">
 
         if ($_POST['query_subject'] != '') {
             if ($_POST['subject_kind'] == 'resource') {
-                $query_subj =& RDF_Resource::factory($_POST['query_subject']);
+                $query_subj = RDF_Resource::factory($_POST['query_subject']);
             } else {
-                $query_subj =& RDF_BlankNode::factory($_POST['query_subject']);
+                $query_subj = RDF_BlankNode::factory($_POST['query_subject']);
             } 
             $comment_string .= "Subject = " . $_POST['query_subject'] . "<BR>";
         } ;
 
         if ($_POST['query_predicate'] != '') {
-            $query_pred =& RDF_Resource::factory($_POST['query_predicate']);
+            $query_pred = RDF_Resource::factory($_POST['query_predicate']);
             $comment_string .= "Predicate = " . $_POST['query_predicate'] . "<BR>";
         } ;
 
         if ($_POST['query_object'] != '') {
             if ($_POST['object_kind'] == 'resource') {
-                $query_obj =& RDF_Resource::factory($_POST['query_object']);
+                $query_obj = RDF_Resource::factory($_POST['query_object']);
             } elseif ($_POST['object_kind'] == 'literal') {
-                $query_obj =& RDF_Literal::factory($_POST['query_object']);
+                $query_obj = RDF_Literal::factory($_POST['query_object']);
                 if ($_POST['query_object_datatype'] != '') {
                     $query_obj->setDatatype($_POST['query_object_datatype']);
                 } 
             } else {
-                $query_obj =& RDF_BlankNode::factory($_POST['query_object']);
+                $query_obj = RDF_BlankNode::factory($_POST['query_object']);
             } ;
             $comment_string .= "Object = " . $_POST['query_object'] . "<BR>";
         } ; 
@@ -241,7 +241,7 @@ xmlns:s="http://description.org/schema/">
     } 
     // Reify the model if checked in submitted form
     if (isset($_POST['reify']) and $_POST['reify'] == "1") {
-        $model =& $model->reify();
+        $model = $model->reify();
         echo "<BR><BR><h3>Your original model has been refied.</h3><BR>";
     } ;
     // Output Triples as Table if checked in submitted form
@@ -253,7 +253,7 @@ xmlns:s="http://description.org/schema/">
     // serialize model to RDF with default configuration if checked in submitted form
     if ($_POST['serialize'] == '1') {
         // Create Serializer
-        $ser =& new RDF_Serializer();
+        $ser = new RDF_Serializer();
         $msg_string = '';
         if (isset($_POST['serial_attributes']) and $_POST['serial_attributes'] == '1') {
             $ser->configUseAttributes(true);
@@ -267,7 +267,7 @@ xmlns:s="http://description.org/schema/">
             $ser->configUseQnames(false);
             $msg_string .= 'Without Qnames ';
         } ;
-        $rdf =& $ser->serialize($model);
+        $rdf = $ser->serialize($model);
         echo "<p><BR><h3>Serialization of input model";
         if (isset($msg_string)) echo " (Options: " . $msg_string . ")";
         echo ":</h3>";

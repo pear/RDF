@@ -39,7 +39,7 @@ class RDF_Resource extends RDF_Node
      */
     function factory($namespace_or_uri , $localName = null)
     {
-        $resource =& new RDF_Resource;
+        $resource = new RDF_Resource;
         if ($localName == null) {
             $resource->uri = $namespace_or_uri;
         } else {

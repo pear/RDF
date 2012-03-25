@@ -36,7 +36,7 @@ class RDF_StatementIterator
      * @param object Model_Memory
      * @access public
      */
-    function RDF_StatementIterator(&$model)
+    function RDF_StatementIterator(RDF_Model $model)
     {
         $this->model = $model;
         $this->position = -1;

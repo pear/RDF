@@ -181,8 +181,8 @@ class RDF_Model_Memory extends RDF_Model
      */
     function writeAsHtml()
     {
-        $ser =& new RDF_Serializer();
-        $rdf =& $ser->serialize($this);
+        $ser = new RDF_Serializer();
+        $rdf = $ser->serialize($this);
         $rdf = htmlspecialchars($rdf, ENT_QUOTES);
         $rdf = str_replace(' ', '&nbsp;', $rdf);
         $rdf = nl2br($rdf);
@@ -207,8 +207,8 @@ class RDF_Model_Memory extends RDF_Model
      */
     function writeRDFToString()
     {
-        $ser =& new RDF_Serializer();
-        $rdf =& $ser->serialize($this);
+        $ser = new RDF_Serializer();
+        $rdf = $ser->serialize($this);
         return $rdf;
     }
 
@@ -229,11 +229,11 @@ class RDF_Model_Memory extends RDF_Model
     {
         // get suffix and create a corresponding serializer
         if ($type=='rdf') { 
-            $ser=& new RDF_Serializer();
+            $ser= new RDF_Serializer();
         } elseif ($type=='nt') { 
-            $ser=& new RDF_NTriple_Serializer();
+            $ser= new RDF_NTriple_Serializer();
         } elseif ($type=='n3') { 
-            $ser=& new RDF_N3_Serializer();
+            $ser= new RDF_N3_Serializer();
         } else {
             print ('Serializer type not properly defined. Use a string of "rdf","n3" or "nt".');
             return false;
@@ -248,11 +248,11 @@ class RDF_Model_Memory extends RDF_Model
      * FALSE otherwise.
      * To improve the search speed with big Model_Memorys, call index() before seaching.
      *
-     * @param object Statement    &$statement
+     * @param object Statement    $statement
      * @return boolean
      * @access public
      */
-    function contains(&$statement)
+    function contains($statement)
     {
         if ($this->indexed) {
             // Use index for searching
@@ -285,7 +285,7 @@ class RDF_Model_Memory extends RDF_Model
      * Determine if all of the statements in a model are also contained in this Model_Memory.
      * True if all of the statements in $model are also contained in this Model_Memory and false otherwise.
      *
-     * @param object Model    &$model
+     * @param object Model    $model
      * @return boolean
      * @access public
      */
@@ -309,11 +309,11 @@ class RDF_Model_Memory extends RDF_Model
      * Determine if any of the statements in a model are also contained in this Model_Memory.
      * True if any of the statements in $model are also contained in this Model_Memory and false otherwise.
      *
-     * @param object Model    &$model
+     * @param object Model    $model
      * @return boolean
      * @access public
      */
-    function containsAny(&$model)
+    function containsAny(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $modelStatement) {
@@ -390,7 +390,7 @@ class RDF_Model_Memory extends RDF_Model
      */
     function find(RDF_Resource $subject = null, RDF_Resource $predicate = null, RDF_Node $object = null)
     {
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
 
         if ($this->size() == 0) {
             return $res;
@@ -437,7 +437,7 @@ class RDF_Model_Memory extends RDF_Model
      */
     function findRegex($subject_regex, $predicate_regex, $object_regex)
     {
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
 
         if ($this->size() == 0) {
             return $res;
@@ -478,7 +478,7 @@ class RDF_Model_Memory extends RDF_Model
             return $this;
         }
 
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
 
         foreach($this->triples as $value) {
             if (RDF_Util::getNamespace($value->getPredicate()) == $vocabulary) {
@@ -623,7 +623,7 @@ class RDF_Model_Memory extends RDF_Model
         $counter = 1;
         while (true) {
             $uri = $this->getBaseURI() . $prefix . $counter;
-            $tempbNode =& RDF_BlankNode::factory($uri);
+            $tempbNode = RDF_BlankNode::factory($uri);
 
             $res1 = $this->find($tempbNode, null, null);
 
@@ -644,7 +644,7 @@ class RDF_Model_Memory extends RDF_Model
      * identifiers in the two models. We will correct this in a future version.
      *
      * @access public
-     * @param object model &$that
+     * @param object model $that
      * @throws phpErrpr
      * @return boolean
      */
@@ -689,7 +689,7 @@ class RDF_Model_Memory extends RDF_Model
      * @access public
      * @throws phpErrpr
      */
-    function &unite(RDF_Model $model)
+    function unite(RDF_Model $model)
     {
         $res = $this;
         $res->indexed = false;
@@ -700,7 +700,7 @@ class RDF_Model_Memory extends RDF_Model
 
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory =& $model->getMemModel();
+            $Model_Memory = $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
                 $result = $res->addWithoutDuplicates($value);
 
@@ -719,7 +719,7 @@ class RDF_Model_Memory extends RDF_Model
      * @throws phpErrpr
      */
 
-    function &subtract(RDF_Model $model)
+    function subtract(RDF_Model $model)
     {
 
         $res = $this;
@@ -731,7 +731,7 @@ class RDF_Model_Memory extends RDF_Model
 
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory =& $model->getMemModel();
+            $Model_Memory = $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
                 $result = $res->remove($value);
 
@@ -749,9 +749,9 @@ class RDF_Model_Memory extends RDF_Model
      * @access public
      * @throws phpErrpr
      */
-    function &intersect(RDF_Model $model)
+    function intersect(RDF_Model $model)
     {
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
 
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $value) {
@@ -761,7 +761,7 @@ class RDF_Model_Memory extends RDF_Model
                 }
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory =& $model->getMemModel();
+            $Model_Memory = $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
                 if ($this->contains($value)) {
                     $result = $res->add($value);
@@ -794,7 +794,7 @@ class RDF_Model_Memory extends RDF_Model
 
             }
         } elseif (is_a($model, 'RDF_Model_MDB')) {
-            $Model_Memory =& $model->getMemModel();
+            $Model_Memory = $model->getMemModel();
             foreach($Model_Memory->triples as $value) {
                 $result = $this->_addStatementFromAnotherModel($value, $blankNodes_tmp);
 
@@ -811,12 +811,12 @@ class RDF_Model_Memory extends RDF_Model
      * @access public
      * @return object Model_Memory
      */
-    function &reify()
+    function reify()
     {
-        $res =& new RDF_Model_Memory($this->getBaseURI());
+        $res = new RDF_Model_Memory($this->getBaseURI());
 
         foreach($this->triples as $statement) {
-            $pointer =& $statement->reify($res);
+            $pointer = $statement->reify($res);
             $result = $res->addModel($pointer);
 
         }
@@ -829,7 +829,7 @@ class RDF_Model_Memory extends RDF_Model
      * @access public
      * @return object StatementIterator
      */
-    function &getStatementIterator()
+    function getStatementIterator()
     {
         return new RDF_StatementIterator($this);
     }

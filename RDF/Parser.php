@@ -1883,23 +1883,23 @@ class RDF_Parser
     {
         // create subject
         if ($subject_type == RDF_SUBJECT_TYPE_BNODE) {
-            $objsub =& RDF_BlankNode::factory($subject);
+            $objsub = RDF_BlankNode::factory($subject);
         } else {
-            $objsub =& RDF_Resource::factory($subject);
+            $objsub = RDF_Resource::factory($subject);
         }
         // create predicate
-        $objpred =& RDF_Resource::factory($predicate);
+        $objpred = RDF_Resource::factory($predicate);
         // create object
         if (($object_type == RDF_OBJECT_TYPE_RESOURCE)
             || ($object_type == RDF_OBJECT_TYPE_BNODE)
         ) {
             if ($object_type == RDF_OBJECT_TYPE_BNODE) {
-                $objobj =& RDF_BlankNode::factory($object);
+                $objobj = RDF_BlankNode::factory($object);
             } else {
-                $objobj =& RDF_Resource::factory($object);
+                $objobj = RDF_Resource::factory($object);
             }
         } else {
-            $objobj =& RDF_Literal::factory($object);
+            $objobj = RDF_Literal::factory($object);
             if ($datatype != '') {
                 $objobj->setDatatype($datatype);
             } elseif ($xml_lang != "") {
@@ -1907,7 +1907,7 @@ class RDF_Parser
             }
         }
         // create statement
-        $statement =& RDF_Statement::factory($objsub, $objpred, $objobj);
+        $statement = RDF_Statement::factory($objsub, $objpred, $objobj);
         // add statement to model
         return $this->model->add($statement);
     }
@@ -1927,12 +1927,12 @@ class RDF_Parser
      * @param     boolean  $rdfBaseURI 
      * @return object Model_Memory
      */
-    function &generateModel($base, $rdfBaseURI = false)
+    function generateModel($base, $rdfBaseURI = false)
     {
         // Check if $base is a URI or filename or a string containing RDF code.
         if (substr(ltrim($base), 0 , 1) != '<') {
             // $base is URL or filename
-            $this->model =& new RDF_Model_Memory($base);
+            $this->model = new RDF_Model_Memory($base);
 
             $input = @fopen($base, 'r');
             if (!$input) {
@@ -1957,7 +1957,7 @@ class RDF_Parser
             fclose($input);
         } else {
             // $base is RDF string
-            $this->model =& new RDF_Model_Memory();
+            $this->model = new RDF_Model_Memory();
 
             $this->rdf_parser_create(null);
             if ($rdfBaseURI!==false) {
@@ -2014,12 +2014,12 @@ class RDF_Parser
 
     /**
      *
-     * @param resource &$parser
+     * @param resource $parser
      * @param string $ns_prefix
      * @param string $ns_uri
      * @access protected
      */
-    function _start_ns_declaration_handler(&$parser, $ns_prefix, $ns_uri)
+    function _start_ns_declaration_handler($parser, $ns_prefix, $ns_uri)
     {
         if (!$ns_prefix) {
             $this->rdf_parser['default_namespace'] = $ns_uri;

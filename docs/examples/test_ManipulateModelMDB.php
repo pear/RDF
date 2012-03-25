@@ -28,7 +28,7 @@ require_once 'RDF/Model/Memory.php';
 // # ------------------------------------------
 // Connect to MsAccess (rdf_db DSN) database using connection settings
 // defined in constants.php :
-$rdf_database =& new RDF_Store_MDB(
+$rdf_database = new RDF_Store_MDB(
     array(
         'phptype' => 'mysql',
         'username' => 'metapear',
@@ -46,7 +46,7 @@ echo "<br><br>";
 // # 3. Add a statement tho the Model_MDB
 // # ----------------------------------
 // Ceate a new statement
-$statement =& RDF_Statement::factory(
+$statement = RDF_Statement::factory(
     RDF_Resource::factory('http://www.w3.org/Home/Lassila'),
     RDF_Resource::factory('http://description.org/schema/Description'),
     RDF_Literal::factory('Lassilas persönliche Homepage', 'de')
@@ -61,7 +61,7 @@ echo "<br><br>";
 // # 4. Search statements
 // # ---------------------
 // Search for statements having object $literal
-$literal =& RDF_Literal::factory('Lassilas persönliche Homepage', 'de');
+$literal = RDF_Literal::factory('Lassilas persönliche Homepage', 'de');
 $res = $Model_MDB->find(null, null, $literal);
 // Output the result
 $res->writeAsHtmlTable();

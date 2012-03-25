@@ -54,12 +54,12 @@ class RDF_FindIterator
     * @param    object  Object
     * @access   public
     */
-    function RDF_FindIterator(&$model, &$sub, &$pred, &$obj)
+    function RDF_FindIterator($model, $sub, $pred, $obj)
     {
-        $this->model =& $model;
-        $this->subject =& $sub;
-        $this->predicate =& $pred;
-        $this->object =& $obj;
+        $this->model = $model;
+        $this->subject = $sub;
+        $this->predicate = $pred;
+        $this->object = $obj;
         $this->position = -1;
     }
 
