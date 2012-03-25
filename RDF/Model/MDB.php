@@ -13,6 +13,7 @@
  * @access public
  */
 require_once 'RDF/Model.php';
+require_once 'RDF/Exception.php';
 
 class RDF_Model_MDB extends RDF_Model
 {
@@ -109,17 +110,11 @@ class RDF_Model_MDB extends RDF_Model
     /**
      * Add a new triple to this Model_MDB.
      *
-     * @param object Statement    &$statement
+     * @param object RDF_Statement    &$statement
      * @access public
      */
-    function add(&$statement)
+    function add(RDF_Statement $statement)
     {
-        if (!is_a($statement, 'RDF_Statement')) {
-            $errmsg = 'Statement expected, got unexpected: '.
-                (is_object($statement) ? get_class($statement) : gettype($statement));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
-
         if (!$this->contains($statement)) {
             $subject_is = $this->_getNodeFlag($statement->getSubject());
             $sql = 'INSERT INTO statements VALUES (' .
@@ -156,14 +151,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throws SqlError
      * @access public
      */
-    function remove(&$statement)
+    function remove(RDF_Statement $statement)
     {
-        if (!is_a($statement, 'RDF_Statement')) {
-            $errmsg = 'Statement expected, got unexpected: '.
-                (is_object($statement) ? get_class($statement) : gettype($statement));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
-
         $sql = 'DELETE FROM statements
            WHERE modelID=' . $this->modelID;
         $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
@@ -289,7 +278,7 @@ class RDF_Model_MDB extends RDF_Model
      * @return boolean
      * @access public
      */
-    function containsAll(&$model)
+    function containsAll(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $statement) {
@@ -310,9 +299,7 @@ class RDF_Model_MDB extends RDF_Model
             return true;
         }
 
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
@@ -322,7 +309,7 @@ class RDF_Model_MDB extends RDF_Model
      * @return boolean
      * @access public
      */
-    function containsAny(&$model)
+    function containsAny(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
             foreach($model->triples as $statement) {
@@ -343,9 +330,7 @@ class RDF_Model_MDB extends RDF_Model
             return false;
         }
 
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
@@ -362,15 +347,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throws SqlError
      * @access public
      */
-    function find($subject, $predicate, $object)
+    function find(RDF_Resource $subject = null, RDF_Resource $predicate = null, RDF_Node $object = null)
     {
-        if ((!is_a($subject, 'RDF_Resource') && $subject != null)
-            || (!is_a($predicate, 'RDF_Resource') && $predicate != null)
-            || (!is_a($object, 'RDF_Node') && $object != null)
-        ) {
-            $errmsg = 'Parameters must be subclasses of Node or null';
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
         // static part of the sql statement
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
             FROM statements
@@ -455,15 +433,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throws SqlError
      * @access public
      */
-    function findFirstMatchingStatement($subject, $predicate, $object)
+    function findFirstMatchingStatement(RDF_Resource $subject = null, RDF_Resource $predicate = null, RDF_Node $object = null)
     {
-        if ((!is_a($subject, 'RDF_Resource') && $subject != null)
-            || (!is_a($predicate, 'RDF_Resource') && $predicate != null)
-            || (!is_a($object, 'RDF_Node') && $object != null)
-        ) {
-            $errmsg = 'Parameters must be subclasses of Node or null';
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
         // static part of the sql statement
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
             FROM statements
@@ -496,15 +467,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throws SqlError
      * @access public
      */
-    function findCount($subject, $predicate, $object)
+    function findCount(RDF_Resource $subject = null, RDF_Resource $predicate = null, RDF_Node $object = null)
     {
-        if ((!is_a($subject, 'RDF_Resource') && $subject != null)
-            || (!is_a($predicate, 'RDF_Resource') && $predicate != null)
-            || (!is_a($object, 'RDF_Node') && $object != null)
-        ) {
-            $errmsg = 'Parameters must be subclasses of Node or null';
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
         // static part of the sql statement
         $sql = 'SELECT COUNT(*)
             FROM statements
@@ -531,22 +495,20 @@ class RDF_Model_MDB extends RDF_Model
      * @throws SqlError
      * @access public
      */
-    function replace($subject, $predicate, $object, $replacement)
+    function replace(RDF_Resource $subject = null, RDF_Resource $predicate = null, RDF_Node $object = null, $replacement)
     {
         // check the correctness of the passed parameters
-        if (((!is_a($subject, 'RDF_Resource') && $subject != null)
-                || (!is_a($predicate, 'RDF_Resource') && $predicate != null)
-                || (!is_a($object, 'RDF_Node') && $object != null)
-            )
-            || (($subject != null && is_a($replacement, 'RDF_Literal'))
-                || ($predicate != null
-                    && (is_a($replacement, 'RDF_Literal') || is_a($replacement, 'RDF_BlankNode'))
-                )
-            )
-        ) {
+        if ($subject && is_a($replacement, 'RDF_Literal')) {
             $errmsg = 'Parameter mismatch';
-            return RDF::raiseError(RDF_ERROR, null, null, $errmsg);
+            return throw new InvalidArgumentException($errmsg, RDF_ERROR);
         }
+
+
+        if ($predicate && (is_a($replacement, 'RDF_Literal') || is_a($replacement, 'RDF_BlankNode'))) {
+            $errmsg = 'Parameter mismatch';
+            return throw new InvalidArgumentException($errmsg, RDF_ERROR);
+        }
+
 
         if (!(!$subject && !$predicate && !$object)) {
             // create an update sql statement
@@ -590,14 +552,8 @@ class RDF_Model_MDB extends RDF_Model
      * @access public
      */
 
-    function equals(&$that)
+    function equals(RDF_Model $that)
     {
-        if (!is_a($that, 'RDF_Model')) {
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
-
         if ($this->size() != $that->size()) {
             return false;
         }
@@ -637,13 +593,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throws PhpError
      * @access public
      */
-    function &unite(&$model)
+    function &unite(RDF_Model $model)
     {
-        if (!is_a($model, 'RDF_Model')) {
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
 
         if (is_a($model, 'RDF_Model_Memory')) {
             $thisModel =& $this->getMemModel();
@@ -653,6 +604,8 @@ class RDF_Model_MDB extends RDF_Model
             $thatModel =& $model->getMemModel();
             return $thisModel->unite($thatModel);
         }
+
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
@@ -664,14 +617,8 @@ class RDF_Model_MDB extends RDF_Model
      * @access public
      */
 
-    function &subtract(&$model)
+    function &subtract(RDF_Model $model)
     {
-        if (!is_a($model, 'RDF_Model')) {
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
-
         if (is_a($model, 'RDF_Model_Memory')) {
             $thisModel =& $this->getMemModel();
             return $thisModel->subtract($model);
@@ -680,6 +627,8 @@ class RDF_Model_MDB extends RDF_Model
             $thatModel =& $model->getMemModel();
             return $thisModel->subtract($thatModel);
         }
+
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
@@ -691,7 +640,7 @@ class RDF_Model_MDB extends RDF_Model
      * @throws PhpError
      * @access public
      */
-    function &intersect(&$model)
+    function &intersect(RDF_Model $model)
     {
         if (is_a($model, 'RDF_Model_Memory')) {
             $thisModel =& $this->getMemModel();
@@ -702,9 +651,7 @@ class RDF_Model_MDB extends RDF_Model
             return $thisModel->intersect($thatModel);
         }
 
-        $errmsg = 'Model expected, got unexpected: '.
-            (is_object($model) ? get_class($model) : gettype($model));
-        return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
@@ -718,14 +665,8 @@ class RDF_Model_MDB extends RDF_Model
      * @throw PhpError
      * @access public
      */
-    function addModel(&$model)
+    function addModel(RDF_Model $model)
     {
-        if (!is_a($model, 'RDF_Model')) {
-            $errmsg = 'Model expected, got unexpected: '.
-                (is_object($model) ? get_class($model) : gettype($model));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
-
         $blankNodes_tmp = array();
 
         if (is_a($model, 'RDF_Model_Memory')) {
@@ -750,6 +691,8 @@ class RDF_Model_MDB extends RDF_Model
             $this->dbConn->commit();
             $this->dbConn->autoCommit(true);
         }
+
+        throw new RDF_Exception("Unknown model type:" . get_class($model));
     }
 
     /**
