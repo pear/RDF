@@ -72,13 +72,8 @@ class RDF_Statement extends RDF_Object
      * @access public
      * @return object node
      */
-    function setSubject($subj)
+    function setSubject(RDF_Resource $subj)
     {
-        if (!is_a($subj, 'RDF_Resource')) {
-            $errmsg = 'Resource expected as subject, got unexpected: '.
-                (is_object($subj) ? get_class($subj) : gettype($subj));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
-        }
         $this->subj = $subj;
     }
 
@@ -99,12 +94,12 @@ class RDF_Statement extends RDF_Object
      * @access public
      * @return object node
      */
-    function setPredicate($pred)
+    function setPredicate(RDF_Resource $pred)
     {
-        if (!is_a($pred, 'RDF_Resource') || is_a($pred, 'RDF_BlankNode')) {
+        if (is_a($pred, 'RDF_BlankNode')) {
             $errmsg = 'Resource expected as predicate, no blank node allowed, got unexpected: '.
                 (is_object($pred) ? get_class($pred) : gettype($pred));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
+            throw new InvalidArgumentException($errmsg);
         }
         $this->pred = $pred;
     }
@@ -131,7 +126,7 @@ class RDF_Statement extends RDF_Object
         if (!(is_a($obj, 'RDF_Resource') or is_a($obj, 'RDF_Literal'))) {
            $errmsg = 'Resource or Literal expected as object, got unexpected: '.
                 (is_object($obj) ? get_class($obj) : gettype($obj));
-            return RDF::raiseError(RDF_ERROR_UNEXPECTED, null, null, $errmsg);
+            throw new InvalidArgumentException($errmsg);
         }
         $this->obj = $obj;
     }
